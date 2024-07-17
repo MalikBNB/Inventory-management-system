@@ -10,6 +10,6 @@ namespace Hisba.Data.Bll
     public class SharedBll
     {
 
-        public static AppDbContext Db;
+        public static AppDbContext Db = new AppDbContext();
     }
 }

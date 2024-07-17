@@ -10,6 +10,8 @@ namespace Hisba.Data.Layers.Entities
         [Key]
         public int Id { get; set; }
 
+        public int Code { get; set; }
+
         [Index(IsUnique = true)]
         [StringLength(1000)]
         public string Name { get; set; }

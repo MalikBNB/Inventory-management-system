@@ -1,7 +1,9 @@
 ﻿using Hisba.Data.Layers;
 using Hisba.Data.Layers.Entities;
+using Hisba.Data.Layers.EntitiesInfo;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hisba.Data.Bll.Entities
@@ -53,9 +55,20 @@ namespace Hisba.Data.Bll.Entities
             return await Db.ProductCategories.FindAsync(Name);
         }
 
-        public static async Task<List<ProductCategory>> GetAllProductCategories()
+        public static async Task<List<CategoryInfo>> GetAllProductCategories()
         {
-            return await Db.ProductCategories.ToListAsync();
+            return await Db.ProductCategories.Select(item => new CategoryInfo
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Code = item.Code,
+                CreatorId = (int)item.CreatorId,
+                Creator = item.Creator.Username,
+                Created = item.Created,
+                ModifierId = (int)item.ModifierId,
+                Modifier = item.Modifier.Username,
+                Modified = item.Modified,
+            }).ToListAsync();
         }
     }
 }

@@ -38,8 +38,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.Desktop.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Mvvm.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Accordion.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Docking.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v23.1.Core, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Layout.v23.1.Core, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Ribbon.v23.1, Version=23.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -48,7 +58,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,6 +70,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -67,6 +82,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utils\Icons.cs" />
+    <Compile Include="Views\GoodsReceipt\GoodsReceiptUc.xaml.cs">
+      <DependentUpon>GoodsReceiptUc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\ProductManageWindow.xaml.cs">
+      <DependentUpon>ProductManageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\ProductUc.xaml.cs">
+      <DependentUpon>ProductUc.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +104,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\ViewResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GoodsReceipt\GoodsReceiptUc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Product\ProductManageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Product\ProductUc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -95,9 +136,19 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\OpenSans-BoldItalic.ttf" />
+    <Resource Include="Fonts\OpenSans-ExtraBold.ttf" />
+    <Resource Include="Fonts\OpenSans-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\OpenSans-Italic.ttf" />
+    <Resource Include="Fonts\OpenSans-Light.ttf" />
+    <Resource Include="Fonts\OpenSans-LightItalic.ttf" />
+    <Resource Include="Fonts\OpenSans-Regular.ttf" />
+    <Resource Include="Fonts\OpenSans-SemiBold.ttf" />
+    <Resource Include="Fonts\OpenSans-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\OpenSansBold.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -116,6 +167,83 @@
       <Project>{38e2f7aa-7069-4c78-b1dc-7788aec669ad}</Project>
       <Name>Hisba.Data.Layers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\addFilter_16px.png" />
+    <Resource Include="Icons\addFilter_24px.png" />
+    <Resource Include="Icons\addFilter_32px.png" />
+    <Resource Include="Icons\add_16px.png" />
+    <Resource Include="Icons\add_32px.png" />
+    <Resource Include="Icons\add_list_16px.png" />
+    <Resource Include="Icons\add_list_32px.png" />
+    <Resource Include="Icons\cancel_16px.png" />
+    <Resource Include="Icons\cancel_24px.png" />
+    <Resource Include="Icons\cancel_32px.png" />
+    <Resource Include="Icons\copy_16px.png" />
+    <Resource Include="Icons\copy_24px.png" />
+    <Resource Include="Icons\copy_32px.png" />
+    <Resource Include="Icons\deleteFilter_16px.png" />
+    <Resource Include="Icons\deleteFilter_24px.png" />
+    <Resource Include="Icons\deleteFilter_32px.png" />
+    <Resource Include="Icons\delete_bin_16px.png" />
+    <Resource Include="Icons\delete_bin_32px.png" />
+    <Resource Include="Icons\diStar_24px.png" />
+    <Resource Include="Icons\editorFilter_16px.png" />
+    <Resource Include="Icons\editorFilter_24px.png" />
+    <Resource Include="Icons\editorFilter_32px.png" />
+    <Resource Include="Icons\edit_16px.png" />
+    <Resource Include="Icons\edit_32px.png" />
+    <Resource Include="Icons\filter_16px.png" />
+    <Resource Include="Icons\filter_24px.png" />
+    <Resource Include="Icons\filter_32px.png" />
+    <Resource Include="Icons\forward_10px.png" />
+    <Resource Include="Icons\grid_template_16px.png" />
+    <Resource Include="Icons\grid_template_32px.png" />
+    <Resource Include="Icons\microsoft_excel_2019_16px.png" />
+    <Resource Include="Icons\microsoft_excel_2019_32px.png" />
+    <Resource Include="Icons\pencil_eraser_16px.png" />
+    <Resource Include="Icons\pencil_eraser_32px.png" />
+    <Resource Include="Icons\refresh_16px.png" />
+    <Resource Include="Icons\refresh_32px.png" />
+    <Resource Include="Icons\save_16px.png" />
+    <Resource Include="Icons\save_24px.png" />
+    <Resource Include="Icons\save_32px.png" />
+    <Resource Include="Icons\save_as_16px.png" />
+    <Resource Include="Icons\save_as_24px.png" />
+    <Resource Include="Icons\save_as_32px.png" />
+    <Resource Include="Icons\save_close_16px.png" />
+    <Resource Include="Icons\save_close_24px.png" />
+    <Resource Include="Icons\save_close_32px.png" />
+    <Resource Include="Icons\star_24px.png" />
+    <Resource Include="Icons\view_16px.png" />
+    <Resource Include="Icons\view_32px.png" />
+    <Resource Include="Icons\vision_16px.png" />
+    <Resource Include="Icons\vision_24px.png" />
+    <Resource Include="Icons\vision_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DeliveryNote24Px.png" />
+    <Resource Include="Icons\GoodsReceipt24Px.png" />
+    <Resource Include="Icons\ReturnClient24Px.png" />
+    <Resource Include="Icons\ReturnSupplier24Px.png" />
+    <Resource Include="Icons\Purchses24Px.png" />
+    <Resource Include="Icons\Stock24Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Sales24Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Products24Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Treasury24Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\CashIn24Px.png" />
+    <Resource Include="Icons\CashOut24Px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

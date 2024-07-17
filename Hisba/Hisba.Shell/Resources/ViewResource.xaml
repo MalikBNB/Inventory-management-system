@@ -1,0 +1,288 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"                   
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"                   
+                    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"          
+                    xmlns:localization="clr-namespace:Hisba.Shell.Properties"
+                    xmlns:icons="clr-namespace:Hisba.Shell.Utils;assembly=Hisba.Shell"
+                    xmlns:shell="clr-namespace:Hisba.Shell">
+
+
+    <FontFamily x:Key="PrimaryFontFamily">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-Regular.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily Light">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-Light.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily SemiBold">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-SemiBold.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily BoldItalic">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-BoldItalic.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily ExtraBold">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-ExtraBold.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily ExtraBoldItalic">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-ExtraBoldItalic.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily Italic">pack://application:,,,/Hisba.Shell;component/FontsOpenSans-Italic.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily LightItalic">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-LightItalic.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily SemiBoldItalic">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSans-SemiBoldItalic.ttf#Open Sans</FontFamily>
+    <FontFamily x:Key="PrimaryFontFamily Bold">pack://application:,,,/Hisba.Shell;component/Fonts/OpenSansBold.ttf#Open Sans</FontFamily>
+
+    <!--#region Window-->
+    <Style x:Key="DxWindowStyle" TargetType="dx:ThemedWindow">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="ShowInTaskbar" Value="False"/>
+    </Style>
+    <!--#endregion Window-->
+
+    <!--#region ToolBarControl-->
+    <Style x:Key="GlobalView.ToolBarControl" TargetType="dxb:ToolBarControl">
+        <Setter Property="Caption" Value="Standard"/>
+        <Setter Property="ShowDragWidget" Value="False"/>
+        <Setter Property="AllowQuickCustomization" Value="False"/>
+        <Setter Property="AllowCustomizationMenu" Value="False"/>
+        <Setter Property="AllowCollapse" Value="False"/>
+        <Setter Property="AllowHide" Value="False"/>
+        <Setter Property="AllowRemove" Value="False"/>
+        <Setter Property="AllowRename" Value="False"/>
+        <Setter Property="AllowDrop" Value="False" />
+    </Style>
+    <!--#endregion ToolBarControl-->
+
+    <Style x:Key="GlobalView.Command.Save" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Save}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Save16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Save32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.SaveAndClose" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_SaveAndClose}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.SaveAndClose16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.SaveAndClose32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.SaveAndNew" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_SaveAndNew}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.SaveAndNew16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.SaveAndNew32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.EmptyFields" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_EmptyFields}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.EmptyFields16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.EmptyFields32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Refresh" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Refresh}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Refresh16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Refresh32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Export" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_ExportExcel}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Export16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Export32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+        <Setter Property="KeyGesture" Value="Ctrl+Shift+E"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridLayout" TargetType="dxb:BarSubItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridLayout}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.GridLayout16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.GridLayout32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridSaveLayout" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridSaveLayout}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridResetLayout" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridResetLayout}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridFilter" TargetType="dxb:BarSubItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridFilter}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.GridFilter16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.GridFilter32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridSaveFilter" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridSaveFilter}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.GridFilter32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridSavedFilters" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridSavedFilters}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.GridFilter32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridDeleteFilters" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridDeleteFilters}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.GridDeleteFilter32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Favorite" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Favorite}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.DiStar24Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridFilterEditor" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridFilterEditor}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.GridEditorFilter32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.GridColumnsChooser" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_GridColumnsChooser}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.LookUpEdit" TargetType="dxg:LookUpEdit">
+        <Setter Property="AutoPopulateColumns" Value="False"/>
+        <Setter Property="AutoComplete" Value="True"/>
+        <Setter Property="IncrementalFiltering" Value="True"/>
+        <Setter Property="ImmediatePopup" Value="True"/>
+        <Setter Property="IsPopupAutoWidth" Value="True"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="AssignNullValueOnClearingEditText" Value="True"/>
+        <Setter Property="AllowNullInput" Value="True"/>
+        <Setter Property="IsTextEditable" Value="False"/>
+        <Setter Property="ShowPopupIfReadOnly" Value="False"/>
+        <Setter Property="NullValueButtonPlacement" Value="EditBox"/>
+    </Style>
+
+    <Style TargetType="dxg:GridColumnHeader">
+        <Setter Property="FontFamily" Value="{StaticResource 'PrimaryFontFamily SemiBold'}"/>
+    </Style>
+
+    <Style TargetType="dxg:GridColumn">
+        <Setter Property="AllowEditing" Value="True"/>
+        <Setter Property="ReadOnly" Value="True"/>
+        <Setter Property="ShowInColumnChooser" Value="{DXBinding '@s.Visible'}"/>
+        <Setter Property="AllowColumnFiltering" Value="{DXBinding '@s.Visible'}"/>
+    </Style>
+
+    <Style TargetType="dxg:TableView">
+        <Setter Property="ClipboardCopyOptions" Value="All"/>
+        <Setter Property="ClipboardMode" Value="Formatted"/>
+    </Style>
+
+    <Style x:Key="GlobalView.GridControl" TargetType="dxg:GridControl">
+        <Setter Property="ShowBorder" Value="True"/>
+        <Setter Property="SelectionMode" Value="Row"/>
+        <Setter Property="AutoGenerateColumns" Value="None"/>
+        <Setter Property="AllowLiveDataShaping" Value="True"/>
+        <Setter Property="dx:ScrollBarExtensions.ScrollBarMode" Value="Standard"/>
+        <Setter Property="shell:Helper.TotalSummaries">
+            <Setter.Value>
+                <shell:GridSummaryItems>
+                    <dxg:GridSummaryItem SummaryType="Count" DisplayFormat="{x:Static localization:Resources.GridControl_SelectedItemsCount}" CalculationMode="SelectedRows" Alignment="Right" Tag="SelectedItemsCount"/>
+                    <dxg:GridSummaryItem SummaryType="Count" DisplayFormat="{x:Static localization:Resources.GridControl_ItemsCount}" CalculationMode="AllRows" Alignment="Right" Tag="ItemsCount"/>
+                </shell:GridSummaryItems>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="shell:Helper.GroupSummaries">
+            <Setter.Value>
+                <shell:GridSummaryItems>
+                    <dxg:GridSummaryItem SummaryType="Count" DisplayFormat="{x:Static localization:Resources.GridControl_ItemsCount}" CalculationMode="AllRows" Alignment="Right" Tag="ItemsCount"/>
+                </shell:GridSummaryItems>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GlobalView.TableView.Base" TargetType="dxg:TableView" BasedOn="{StaticResource {x:Type dxg:TableView}}">
+        <Setter Property="AutoWidth" Value="False"/>
+        <Setter Property="AllowEditing" Value="True"/>
+        <Setter Property="ShowCriteriaInAutoFilterRow" Value="True"/>
+        <Setter Property="ShowAutoFilterRow" Value="True"/>
+        <Setter Property="ShowFixedTotalSummary" Value="True"/>
+        <Setter Property="ShowSearchPanelMode" Value="Always"/>
+        <Setter Property="ShowSearchPanelNavigationButtons" Value="True"/>
+        <Setter Property="ShowSearchPanelMRUButton" Value="True"/>
+        <Setter Property="ShowSearchPanelResultInfo" Value="True"/>
+        <Setter Property="SearchPanelHorizontalAlignment" Value="Right"/>
+        <Setter Property="SearchPanelParseMode" Value="And"/>
+        <Setter Property="SearchPanelAllowFilter" Value="True"/>
+        <Setter Property="NavigationStyle" Value="Cell"/>
+        <Setter Property="ShowIndicator" Value="True"/>
+        <Setter Property="WaitIndicatorType" Value="None"/>
+        <Setter Property="AllowPerPixelScrolling" Value="True"/>
+        <Setter Property="ShowEmptyText" Value="True"/>
+        <Setter Property="AllowFilterEditor" Value="True"/>
+        <Setter Property="ShowGroupPanel" Value="True"/>
+        <Setter Property="ShowGroupedColumns" Value="True"/>
+        <Setter Property="PrintSelectedRowsOnly" Value="True"/>
+    </Style>
+
+    <Style x:Key="GlobalView.TableView" TargetType="dxg:TableView" BasedOn="{StaticResource GlobalView.TableView.Base}">
+        <Setter Property="ShowSelectionRectangle" Value="True"/>
+    </Style>
+
+    <Style x:Key="GlobalView.TableView.LookUpEdit" TargetType="dxg:TableView" BasedOn="{StaticResource {x:Type dxg:TableView}}">
+        <Setter Property="AutoWidth" Value="False"/>
+        <Setter Property="ShowCriteriaInAutoFilterRow" Value="True"/>
+        <Setter Property="ShowGroupPanel" Value="False"/>
+        <Setter Property="ShowIndicator" Value="True"/>
+        <Setter Property="ShowAutoFilterRow" Value="True"/>
+        <Setter Property="ShowFixedTotalSummary" Value="True"/>
+        <Setter Property="ShowSearchPanelMode" Value="Always"/>
+        <Setter Property="ShowSearchPanelNavigationButtons" Value="True"/>
+        <Setter Property="ShowSearchPanelMRUButton" Value="True"/>
+        <Setter Property="ShowSearchPanelResultInfo" Value="True"/>
+        <Setter Property="SearchPanelAllowFilter" Value="True"/>
+        <Setter Property="SearchPanelParseMode" Value="And"/>
+        <Setter Property="SearchPanelHorizontalAlignment" Value="Left"/>
+    </Style>
+
+
+    <Style x:Key="GlobalView.DropDownButton" TargetType="dx:DropDownButton">
+        <Setter Property="ArrowGlyph" Value="{Binding Source={x:Static icons:Icons.Forward10Px}}"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="ArrowPadding" Value="0 0 6 0"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.New" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_New}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.New16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.New32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Edit" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Edit}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Edit16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Edit32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Delete" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Delete}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.DeleteBin16Px}}" />
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.DeleteBin32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Copy" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Copy}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Copy24Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Copy32Px}}"/>
+    </Style>
+
+    <Style x:Key="GlobalView.GridCommand.New" BasedOn="{StaticResource GlobalView.Command.New}" TargetType="dxb:BarButtonItem"/>
+
+    <Style x:Key="GlobalView.GridCommand.Edit" BasedOn="{StaticResource GlobalView.Command.Edit}" TargetType="dxb:BarButtonItem"/>
+
+    <Style x:Key="GlobalView.GridCommand.Delete" BasedOn="{StaticResource GlobalView.Command.Delete}" TargetType="dxb:BarButtonItem"/>
+
+    <Style x:Key="GlobalView.GridCommand.Copy" BasedOn="{StaticResource GlobalView.Command.Copy}" TargetType="dxb:BarButtonItem"/>
+
+    <Style x:Key="GlobalView.GridCommand.Refresh" BasedOn="{StaticResource GlobalView.Command.Refresh}" TargetType="dxb:BarButtonItem"/>
+
+</ResourceDictionary>

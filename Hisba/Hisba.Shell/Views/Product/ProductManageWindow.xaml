@@ -1,0 +1,98 @@
+﻿<dx:ThemedWindow xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"  xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"  x:Class="Hisba.Shell.Views.Product.ProductManageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hisba.Shell.Views.Product"
+        xmlns:localization="clr-namespace:Hisba.Shell.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.Title_AddProduct}" Height="500" Width="600"
+        WindowStartupLocation="CenterOwner" Style="{StaticResource DxWindowStyle}" Loaded="Window_Loaded"
+        ResizeMode="NoResize">
+
+
+    <Grid>
+        <Grid Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--ToolBar-->
+            <dxb:BarContainerControl ContainerType="Top">
+                <dxb:ToolBarControl Style="{StaticResource GlobalView.ToolBarControl}">
+                    <dxb:BarButtonItem x:Name="SaveBarButtonItem" Tag="Save"
+                                       Style="{StaticResource GlobalView.Command.Save}"
+                                       KeyGesture="Ctrl+S" ItemClick="SaveBarButtonItem_ItemClick"/>
+
+                    <dxb:BarButtonItem x:Name="SaveAndCloseBarButtonItem" Tag="SaveAndClose"
+                                       Style="{StaticResource GlobalView.Command.SaveAndClose}"
+                                       KeyGesture="Ctrl+E" ItemClick="SaveAndCloseBarButtonItem_ItemClick"/>
+
+                    <dxb:BarButtonItem x:Name="SaveAndNewBarButtonItem" Tag="SaveAndNew"
+                                       Style="{StaticResource GlobalView.Command.SaveAndNew}"
+                                       KeyGesture="Ctrl+N" ItemClick="SaveAndNewBarButtonItem_ItemClick"/>
+
+                    <dxb:BarButtonItem x:Name="EmptyFieldsBarButtonItem"
+                                       Style="{StaticResource GlobalView.Command.EmptyFields}"
+                                       KeyGesture="Ctrl+S" ItemClick="EmptyFieldsBarButtonItem_ItemClick"/>
+                </dxb:ToolBarControl>
+            </dxb:BarContainerControl>
+
+            <dx:LoadingDecorator Name="LoadingDecorator" OwnerLock="Full" Grid.Row="1">
+                <dxlc:LayoutControl>
+                    <dxlc:LayoutGroup View="Tabs">
+                        <dxlc:LayoutGroup Orientation="Vertical" Header="General" ItemSpace="10">
+                            <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="General">
+                                <dxlc:LayoutGroup Orientation="Horizontal">
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Code}">
+                                        <dxe:TextEdit Name="CodeTextEdit" Text="{Binding Product.Code, Mode=OneWay}" IsReadOnly="True"/>
+                                    </dxlc:LayoutItem>
+
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Reference}">
+                                        <dxe:TextEdit Name="ReferenceTextEdit" Text="{Binding Product.Reference, Mode=OneWay}"/>
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+
+                                <dxlc:LayoutGroup Orientation="Vertical">
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Category}">
+                                        <dxg:LookUpEdit />
+                                    </dxlc:LayoutItem>
+
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Label}">
+                                        <dxe:TextEdit Name="NameTextEdit" Text="{Binding Product.Name, Mode=OneWay}" Height="80" VerticalScrollBarVisibility="Visible"/>
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="Properties">
+                                <dxlc:LayoutGroup Orientation="Horizontal">
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_PurchasePrice}">
+                                        <dxe:TextEdit Name="PurchasePriceTextEdit" Text="{Binding Product.PurchasePrice, Mode=OneWay}"/>
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_MarginPercentage}">
+                                        <dxe:TextEdit Name="MarginPercentageTextEdit" Text="{Binding Product.MarginPercentage, Mode=OneWay}"/>
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+
+                                <dxlc:LayoutGroup Orientation="Horizontal">
+                                    <dxlc:LayoutItem />
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_SalePrice}">
+                                        <dxe:TextEdit Name="SalePriceTextEdit" Text="{Binding Product.SalePrice, Mode=OneWay}"/>
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+
+                                <dxlc:LayoutGroup Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_QuantityInStock}">
+                                        <dxe:TextEdit Name="QtyInStockTextEdit" Text="{Binding Product.QuantityInStock, Mode=OneWay}" Width="150"/>
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutControl>
+            </dx:LoadingDecorator>
+        </Grid>
+    </Grid>
+</dx:ThemedWindow>

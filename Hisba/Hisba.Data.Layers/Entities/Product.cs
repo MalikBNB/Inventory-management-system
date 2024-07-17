@@ -21,9 +21,15 @@ namespace Hisba.Data.Layers.Entities
 
         public virtual ProductCategory Category { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal PurchasePrice { get; set; }
 
-        public string QuantityInStock { get; set; }
+        public decimal MarginPercentage { get; set; }
+
+        public double Margin { get => (double)(MarginPercentage / 100); }
+
+        public decimal SalePrice { get => PurchasePrice * (decimal)(1 + Margin); }
+
+        public decimal QuantityInStock { get; set; }
 
         public int? CreatorId { get; set; }
 

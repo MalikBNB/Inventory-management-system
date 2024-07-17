@@ -33,7 +33,7 @@ namespace Hisba.Data.Layers.Entities
 
     public enum TransactionTypeCode
     {
-        Collection,
-        Disbursement
+        Collection = 1,
+        Disbursement = 2
     }
 }

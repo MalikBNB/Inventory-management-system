@@ -1,7 +1,9 @@
 ﻿using Hisba.Data.Layers;
 using Hisba.Data.Layers.Entities;
+using Hisba.Data.Layers.EntitiesInfo;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hisba.Data.Bll.Entities
@@ -26,7 +28,8 @@ namespace Hisba.Data.Bll.Entities
             oldProduct.Name = Product.Name;
             oldProduct.Description = Product.Description;
             oldProduct.CategoryId = Product.CategoryId;
-            oldProduct.Price = Product.Price;
+            oldProduct.PurchasePrice = Product.PurchasePrice;
+            oldProduct.MarginPercentage = Product.MarginPercentage;
             oldProduct.QuantityInStock = Product.QuantityInStock;
             oldProduct.CreatorId = Product.CreatorId;
             oldProduct.Created = Product.Created;
@@ -59,9 +62,31 @@ namespace Hisba.Data.Bll.Entities
             return await Db.Products.FindAsync(Reference);
         }
 
-        public static async Task<List<Product>> GetAllProducts()
+        public static async Task<List<ProductInfos>> GetAllProducts()
         {
-            return await Db.Products.ToListAsync();
+            return await Db.Products.Select(item => new ProductInfos
+            {
+                Id = item.Id,
+
+                Code = item.Code,
+
+                ProductReference = item.Reference,
+
+                ProductName = item.Name,
+
+                Description = item.Description,
+
+                CategoryId = (int)item.CategoryId,
+
+                Category = item.Category.Name,
+
+                PurchasePrice = item.PurchasePrice,
+
+                MarginPercentage = item.MarginPercentage,
+
+                QuantityInStock = item.QuantityInStock,
+
+            }).ToListAsync();
         }
     }
 }

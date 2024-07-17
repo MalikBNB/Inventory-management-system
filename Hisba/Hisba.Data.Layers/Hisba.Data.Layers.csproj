@@ -52,6 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDbCpntext.cs" />
+    <Compile Include="EntitiesInfo\CategoryInfo.cs" />
+    <Compile Include="EntitiesInfo\OrderInfos.cs" />
+    <Compile Include="EntitiesInfo\OrderItemInfos.cs" />
+    <Compile Include="EntitiesInfo\ProductInfos.cs" />
     <Compile Include="Entities\Deposit.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderItem.cs" />

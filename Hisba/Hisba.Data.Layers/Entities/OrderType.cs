@@ -15,7 +15,7 @@ namespace Hisba.Data.Layers.Entities
 
         public bool isIn { get; set; }
 
-        public byte Sign { get; set; }
+        public short Sign { get; set; }
 
         public int? CreatorId { get; set; }
 
@@ -34,9 +34,9 @@ namespace Hisba.Data.Layers.Entities
 
     public enum OrderTypeCode
     {
-        GoodsReceipt,
-        DeliveryNote,
-        SaleReturnOrder,
-        PurchaseReturnOrder
+        GoodsReceipt = 1,
+        PurchaseReturnOrder = 2,
+        DeliveryNote = 3,
+        SaleReturnOrder = 4,
     }
 }

@@ -17,16 +17,31 @@ namespace Hisba.Data.Layers.Entities
 
         public virtual Product Product { get; set; }
 
-        public string Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
-        public decimal PriceHT { get; set; }
+        public double TVA { get => (double)(TVAPercentage / 100); }
 
-        public float TVA { get; set; }
+        public decimal TVAPercentage { get; set; }
 
-        public float Discount { get; set; }
+        public double Discount { get => (double)(DiscountPercentage / 100); }
 
-        [NotMapped]
-        public decimal PriceTTC { get; set; }
+        public decimal DiscountPercentage { get; set; }
+
+        public decimal PriceHT => Product.SalePrice;
+
+        public decimal PriceTTC { get { return PriceHT * (decimal)(1 + TVA); } }
+
+        public decimal NetPriceHT => PriceHT * (decimal)(1 - Discount);
+
+        public decimal NetPriceTTC => PriceTTC * (decimal)(1 - Discount);
+
+        public decimal MarginPercentageHT => (decimal)(MarginHT * 100);
+
+        public double MarginHT => (double)(NetPriceHT / Product.PurchasePrice) - 1;
+
+        public decimal MarginPercentageTTC => (decimal)(MarginTTC * 100);
+
+        public double MarginTTC => (double)(NetPriceTTC / Product.PurchasePrice) - 1;
 
         public int? CreatorId { get; set; }
 
