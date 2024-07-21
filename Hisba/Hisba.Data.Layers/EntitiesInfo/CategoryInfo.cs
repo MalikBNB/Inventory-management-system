@@ -17,16 +17,16 @@ namespace Hisba.Data.Layers.EntitiesInfo
 
         public string Name { get; set; }
 
-        public int CreatorId { get; set; }
+        //public int CreatorId { get; set; }
 
-        public string Creator { get; set; }
+        //public string Creator { get; set; }
 
-        public DateTime Created { get; set; }
+        //public DateTime Created { get; set; }
 
-        public int ModifierId { get; set; }
+        //public int ModifierId { get; set; }
 
-        public string Modifier { get; set; }
+        //public string Modifier { get; set; }
 
-        public DateTime Modified { get; set; }
+        //public DateTime Modified { get; set; }
     }
 }

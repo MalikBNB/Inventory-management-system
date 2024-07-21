@@ -556,6 +556,15 @@ namespace Hisba.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Purchase price HT.
+        /// </summary>
+        public static string Property_PurchasePriceHT {
+            get {
+                return ResourceManager.GetString("Property_PurchasePriceHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Qty.
         /// </summary>
         public static string Property_Quantity {
@@ -592,6 +601,24 @@ namespace Hisba.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sale price HT.
+        /// </summary>
+        public static string Property_SalePriceHT {
+            get {
+                return ResourceManager.GetString("Property_SalePriceHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sale price TTC.
+        /// </summary>
+        public static string Property_SalePriceTTC {
+            get {
+                return ResourceManager.GetString("Property_SalePriceTTC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Status.
         /// </summary>
         public static string Property_Status {
@@ -624,6 +651,15 @@ namespace Hisba.Shell.Properties {
         public static string Property_TotalTVA {
             get {
                 return ResourceManager.GetString("Property_TotalTVA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TVA.
+        /// </summary>
+        public static string Property_TVA {
+            get {
+                return ResourceManager.GetString("Property_TVA", resourceCulture);
             }
         }
         

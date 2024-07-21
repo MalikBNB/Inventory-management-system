@@ -12,7 +12,7 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1050" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="600" Width="1050" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Icon="{Binding Source={x:Static icons:Icons.logo32Px}}">
 
 
     <Window.Resources>
@@ -105,6 +105,15 @@
             <Setter Property="Tag" Value="Products"/>
             <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Products24Px}}"/>
         </Style>
+        <!--Stocks => CommercialJournal-->
+        <Style x:Key="Customize.AccordionItem.CommercialJournal" BasedOn="{StaticResource Customize.AccordionItem.MainMenuParent}" TargetType="dxa:AccordionItem">
+            <Setter Property="Header" Value="Commercial Journal"/>
+            <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+            <Setter Property="Margin" Value="15 0 0 0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Tag" Value="CommercialJournal"/>
+            <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.CommercialJournal24Px}}"/>
+        </Style>
 
         <!--Treasury-->
         <Style x:Key="Customize.AccordionItem.Treasury" BasedOn="{StaticResource Customize.AccordionItem.MainMenuParent}" TargetType="dxa:AccordionItem">
@@ -182,6 +191,7 @@
 
                         <dxa:AccordionItem Name="StocksAccordionItem" Style="{StaticResource Customize.AccordionItem.Stocks}">
                             <dxa:AccordionItem Name="ProductsAccordionItem" Style="{StaticResource Customize.AccordionItem.Products}" MouseUp="ProductsAccordionItem_MouseUp"/>
+                            <dxa:AccordionItem Name="CommercialJournalAccordionItem" Style="{StaticResource Customize.AccordionItem.CommercialJournal}" MouseUp="CommercialJournalAccordionItem_MouseUp"/>
                         </dxa:AccordionItem>
 
                         <dxa:AccordionItem Name="TreasuryAccordionItem" Style="{StaticResource Customize.AccordionItem.Treasury}">

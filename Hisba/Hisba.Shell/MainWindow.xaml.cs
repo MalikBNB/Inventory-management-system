@@ -1,7 +1,7 @@
 ﻿using DevExpress.Xpf.Core;
 using Hisba.Shell.Views;
 using Hisba.Shell.Views.GoodsReceipt;
-using Hisba.Shell.Views.Product;
+using Hisba.Shell.Views.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +89,16 @@ namespace Hisba.Shell
         }
 
         private void biLogOut_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void ProductsAccordionItem_MouseUp_1(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void CommercialJournalAccordionItem_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
         }

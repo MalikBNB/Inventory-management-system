@@ -282,6 +282,9 @@
   <data name="Property_PurchasePrice" xml:space="preserve">
     <value>Purchase price</value>
   </data>
+  <data name="Property_PurchasePriceHT" xml:space="preserve">
+    <value>Purchase price HT</value>
+  </data>
   <data name="Property_Quantity" xml:space="preserve">
     <value>Qty</value>
   </data>
@@ -294,6 +297,12 @@
   <data name="Property_SalePrice" xml:space="preserve">
     <value>Sale price</value>
   </data>
+  <data name="Property_SalePriceHT" xml:space="preserve">
+    <value>Sale price HT</value>
+  </data>
+  <data name="Property_SalePriceTTC" xml:space="preserve">
+    <value>Sale price TTC</value>
+  </data>
   <data name="Property_Status" xml:space="preserve">
     <value>Order Status</value>
   </data>
@@ -305,6 +314,9 @@
   </data>
   <data name="Property_TotalTVA" xml:space="preserve">
     <value>Total TVA</value>
+  </data>
+  <data name="Property_TVA" xml:space="preserve">
+    <value>TVA</value>
   </data>
   <data name="Property_TVAPercentage" xml:space="preserve">
     <value>TVA%</value>

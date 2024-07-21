@@ -20,12 +20,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Hisba.Shell.Views.Product
+namespace Hisba.Shell.Views.Products
 {
     /// <summary>
     /// Interaction logic for ProductUc.xaml
     /// </summary>
-    public partial class ProductUc : UserControl, INotifyPropertyChanged
+    public partial class ProductUc : INotifyPropertyChanged
     {
         private ObservableCollection<ProductInfos> _productInfos;
 
@@ -42,6 +42,8 @@ namespace Hisba.Shell.Views.Product
         public ProductUc()
         {
             InitializeComponent();
+
+            DataContext = this;
         }
 
 
@@ -75,6 +77,8 @@ namespace Hisba.Shell.Views.Product
             {
                 var AddProduct = new ProductManageWindow { Owner = Window.GetWindow(this) };
                 AddProduct.ShowDialog();
+
+                _LoadProducts();
             }
             catch (Exception ex)
             {
@@ -94,7 +98,7 @@ namespace Hisba.Shell.Views.Product
 
         private void RefreshProduct_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-
+            _LoadProducts();
         }
 
         private void ManageGridControl_ItemsSourceChanged(object sender, DevExpress.Xpf.Grid.ItemsSourceChangedEventArgs e)
@@ -112,6 +116,6 @@ namespace Hisba.Shell.Views.Product
 
         }
 
-        
+
     }
 }

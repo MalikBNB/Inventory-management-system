@@ -52,7 +52,12 @@ namespace Hisba.Data.Bll.Entities
 
         public static async Task<ProductCategory> GetProductCategoryByName(string Name)
         {
-            return await Db.ProductCategories.FindAsync(Name);
+            return await Db.ProductCategories.FirstOrDefaultAsync(c => c.Name == Name);
+        }
+
+        public static async Task<List<ProductCategory>> GetCategories()
+        {
+            return await Db.ProductCategories.ToListAsync();
         }
 
         public static async Task<List<CategoryInfo>> GetAllProductCategories()
@@ -60,14 +65,8 @@ namespace Hisba.Data.Bll.Entities
             return await Db.ProductCategories.Select(item => new CategoryInfo
             {
                 Id = item.Id,
-                Name = item.Name,
                 Code = item.Code,
-                CreatorId = (int)item.CreatorId,
-                Creator = item.Creator.Username,
-                Created = item.Created,
-                ModifierId = (int)item.ModifierId,
-                Modifier = item.Modifier.Username,
-                Modified = item.Modified,
+                Name = item.Name
             }).ToListAsync();
         }
     }

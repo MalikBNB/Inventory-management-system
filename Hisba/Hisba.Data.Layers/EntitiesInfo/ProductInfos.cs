@@ -20,9 +20,17 @@ namespace Hisba.Data.Layers.EntitiesInfo
 
         public decimal PurchasePrice { get; set; }
 
-        public decimal SalePrice { get => PurchasePrice * (decimal)(1 + (MarginPercentage / 100)); }
+        public decimal SalePrice { get => PurchasePrice * (decimal)(1 + Margin); }
+
+        public decimal SalePriceTTC { get => SalePrice * (decimal)(1 + TVA); }
 
         public decimal MarginPercentage { get; set; }
+
+        public double Margin { get => (double)(MarginPercentage / 100); }
+
+        public decimal TVAPercentage { get; set; }
+
+        public double TVA { get => (double)(TVAPercentage / 100); }
 
         public decimal QuantityInStock { get; set; }
 

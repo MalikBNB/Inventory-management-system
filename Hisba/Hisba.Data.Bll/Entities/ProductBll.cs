@@ -10,10 +10,13 @@ namespace Hisba.Data.Bll.Entities
 {
     public class ProductBll : SharedBll
     {
-        public async static void Add(AppDbContext context, Product Product)
+        public async static void Add(Product Product)
         {
-            context.Products.Add(Product);
-            await context.SaveChangesAsync();
+            using (var context = new AppDbContext())
+            {
+                context.Products.Add(Product);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async static void Update(AppDbContext context, Product Product)
@@ -81,10 +84,20 @@ namespace Hisba.Data.Bll.Entities
                 Category = item.Category.Name,
 
                 PurchasePrice = item.PurchasePrice,
-
+                
                 MarginPercentage = item.MarginPercentage,
 
+                TVAPercentage = item.TVAPercentage,
+
                 QuantityInStock = item.QuantityInStock,
+
+                Creator = item.Creator.Username,
+
+                Created = item.Created,
+
+                Modifier = item.Modifier.Username,
+
+                Modified = item.Modified,
 
             }).ToListAsync();
         }

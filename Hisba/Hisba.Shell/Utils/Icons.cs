@@ -20,6 +20,18 @@ namespace Hisba.Shell.Utils
         public const string Treasury24Px = "pack://application:,,,/Hisba.Shell;component/Icons/Treasury24Px.png";
         public const string CashIn24Px = "pack://application:,,,/Hisba.Shell;component/Icons/CashIn24Px.png";
         public const string CashOut24Px = "pack://application:,,,/Hisba.Shell;component/Icons/CashOut24Px.png";
+        public const string CommercialJournal24Px = "pack://application:,,,/Hisba.Shell;component/Icons/CommercialJournal24Px.png";
+        public const string logo24Px = "pack://application:,,,/Hisba.Shell;component/Icons/logo24Px.png";
+        public const string logo32Px = "pack://application:,,,/Hisba.Shell;component/Icons/logo32Px.png";
+        public const string logo64Px = "pack://application:,,,/Hisba.Shell;component/Icons/logo64Px.png";
+        public const string Calculator16Px = "pack://application:,,,/Hisba.Shell;component/Icons/Calculator16Px.png";
+
+        public const string Underline16Px = "pack://application:,,,/Hisba.Shell;component/Icons/Underline16Px.png";
+        public const string Bold16Px = "pack://application:,,,/Hisba.Shell;component/Icons/Bold16Px.png";
+        public const string Italic16Px = "pack://application:,,,/Hisba.Shell;component/Icons/Italic16Px.png";
+        public const string AlignLeft16Px = "pack://application:,,,/Hisba.Shell;component/Icons/AlignLeft16Px.png";
+        public const string AlignRight16Px = "pack://application:,,,/Hisba.Shell;component/Icons/AlignRight16Px.png";
+        public const string AlignJustify16Px = "pack://application:,,,/Hisba.Shell;component/Icons/AlignJustify16Px.png";
 
 
 
