@@ -1,28 +1,15 @@
-﻿using DevExpress.Xpf.Controls;
+﻿using DevExpress.Office.Utils;
 using DevExpress.Xpf.Core;
 using Hisba.Data.Bll.Entities;
-using Hisba.Data.Layers;
 using Hisba.Data.Layers.Entities;
 using Hisba.Data.Layers.EntitiesInfo;
-using Hisba.Shell.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Hisba.Shell.Views.Products
 {
@@ -43,13 +30,14 @@ namespace Hisba.Shell.Views.Products
             }
         }
 
-        private ObservableCollection<CategoryInfo> _Cotegories;
-        public ObservableCollection<CategoryInfo> Cotegories
+        private ObservableCollection<CategoryInfo> _Categories;
+        public ObservableCollection<CategoryInfo> Categories
         {
-            get { return _Cotegories; }
+            get { return _Categories; }
             set
             {
-                _Cotegories = value;
+                _Categories = value;
+                OnPropertyChanged("Categories");
             }
         }
 
@@ -62,7 +50,7 @@ namespace Hisba.Shell.Views.Products
             set
             {
                 _SelectedCategory = value;
-                OnPropertyChanged();
+                OnPropertyChanged("SelectedCategory");
             }
         }
 
@@ -74,22 +62,22 @@ namespace Hisba.Shell.Views.Products
             set
             {
                 _tVAs = value;
-                OnPropertyChanged();
+                OnPropertyChanged("TVAs");
             }
         }
 
-        private decimal _Selected;
+        private decimal _SelectedTVA;
         public decimal SelectedTVA
         {
-            get => _Selected;
+            get => _SelectedTVA;
             set
             {
-                _Selected = value;
-                OnPropertyChanged();
+                _SelectedTVA = value;
+                OnPropertyChanged("SelectedTVA");
             }
         }
 
-        
+
 
 
 
@@ -106,9 +94,9 @@ namespace Hisba.Shell.Views.Products
 
         private async void _LoadCategories()
         {
-            var _Cotegories = await ProductCategoryBll.GetAllProductCategories();
+            var _Categories = await ProductCategoryBll.GetAllProductCategories();
 
-            Cotegories = new ObservableCollection<CategoryInfo>(_Cotegories);
+            Categories = new ObservableCollection<CategoryInfo>(_Categories);
         }
 
         private void _ResetWindow()
@@ -116,12 +104,12 @@ namespace Hisba.Shell.Views.Products
             _LoadCategories();
 
             CodeTextEdit.Text = string.Empty;
-            ReferenceTextEdit.Text = string.Empty;            
+            ReferenceTextEdit.Text = string.Empty;
             LabelTextEdit.Text = string.Empty;
-
+            LookupCategory.AllowDrop = true;
             PurchasePriceHTSpinEdit.NullText = "0";
             SalePriceHTSpinEdit.NullText = "0";
-            
+
             TVAcbxEdit.SelectedItem = 0.0M;
             MarginSpinEdit.NullText = "0";
             SalePriceTTCSpinEdit.NullText = "0";
@@ -151,7 +139,7 @@ namespace Hisba.Shell.Views.Products
 
         private bool _SaveProduct()
         {
-            
+
             try
             {
                 _CreateProduct();
@@ -172,7 +160,12 @@ namespace Hisba.Shell.Views.Products
 
 
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -182,7 +175,7 @@ namespace Hisba.Shell.Views.Products
 
         private void SaveBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if(_SaveProduct() == true)
+            if (_SaveProduct() == true)
                 DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
             else
                 DXMessageBox.Show("Product saved successfully", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -190,17 +183,33 @@ namespace Hisba.Shell.Views.Products
 
         private void SaveAndCloseBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-
+            if (_SaveProduct() == true)
+            {
+                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+            }
+            else
+                DXMessageBox.Show("Product saved successfully", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void SaveAndNewBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-
+            if (_SaveProduct() == true)
+            {
+                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                _ResetWindow();
+            }
+            else
+                DXMessageBox.Show("Product saved successfully", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void EmptyFieldsBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            _ResetWindow();
+            var Answer = DXMessageBox.Show("Are you sure you want to empty fields ?", "Confirm empty fields", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes ? true : false;
+
+            if (Answer == true)
+                _ResetWindow();
+
         }
 
 
@@ -209,13 +218,11 @@ namespace Hisba.Shell.Views.Products
         {
             //_Category = new ProductCategory();
             //_Category = await ProductCategoryBll.GetProductCategoryByName(SelectedCategory.Name);
-
-            DXMessageBox.Show(SelectedCategory.Name);
         }
 
         private void PurchasePriceHTSpinEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            if(PurchasePriceHTSpinEdit.Value != 0)
+            if (PurchasePriceHTSpinEdit.Value != 0)
                 MarginSpinEdit.Text = (((SalePriceHTSpinEdit.Value / PurchasePriceHTSpinEdit.Value) - 1) * 100).ToString();
         }
 
@@ -297,13 +304,48 @@ namespace Hisba.Shell.Views.Products
 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        private void CodeTextEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+            //if (LookupCategory.EditValue == null)
+            //{
+            //    DXMessageBox.Show("You have to choose category first", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    CodeTextEdit.Clear();
+            //    LookupCategory.AllowDrop = true;
+            //}
 
-        
+            //if (CodeTextEdit != null)
+            //    CodeTextEdit.DoValidate();
+
+        }
+        static bool Check(int value)
+        {
+            return ProductBll.IsCodeExist(value);
+        }
+        private async void CodeTextEdit_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
+        {
+            if (!string.IsNullOrEmpty((string)e.Value))
+            {
+                if (e.Value == null) return;
+
+                List<int> values = new List<int>();
+                values.Add(Convert.ToInt32(e.Value));
+                //Task<bool> response = Task.Run(() => ProductBll.IsCodeExist(Convert.ToInt32(e.Value)));
+                //var b = await response;
+                //if (b == true) return;
+
+                bool r = true;
+                Parallel.ForEach(values, value =>
+                {
+                    r = Check(value);
+                });
+
+                if (r == true) return;
+
+                e.ErrorType = DevExpress.XtraEditors.DXErrorProvider.ErrorType.Warning;
+                e.IsValid = false;
+                e.ErrorContent = "Code already exist. Enter another one.";
+
+            }
+        }
     }
 }

@@ -65,6 +65,16 @@ namespace Hisba.Data.Bll.Entities
             return await Db.Products.FindAsync(Reference);
         }
 
+        public static bool IsCodeExist(int Code)
+        {
+            return Db.Products.FirstOrDefault(p => p.Code == Code) == null;
+        }
+
+        public static async Task<bool> IsReferenceExist(string Reference)
+        {
+            return await Db.Products.FindAsync(Reference) != null;
+        }
+
         public static async Task<List<ProductInfos>> GetAllProducts()
         {
             return await Db.Products.Select(item => new ProductInfos

@@ -47,14 +47,18 @@
             </dxb:BarContainerControl>
 
             <dx:LoadingDecorator Name="LoadingDecorator" OwnerLock="Full" Grid.Row="1">
-                <dxlc:LayoutControl>
+                <dxlc:LayoutControl dxe:ValidationService.IsValidationContainer="True" dxe:ValidationService.AllowAccessibilityAlerts="True">
                     <dxlc:LayoutGroup View="Tabs">
                         <dxlc:LayoutGroup Orientation="Vertical" Header="General" ItemSpace="10">
                             <!--GeneralGroupBox-->
                             <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="General" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <dxlc:LayoutGroup Orientation="Horizontal">
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Code}">
-                                        <dxe:TextEdit Name="CodeTextEdit" Text="{Binding Product.Code, Mode=OneWay}" IsReadOnly="False"/>
+                                        <dxe:TextEdit Name="CodeTextEdit" 
+                                                      Text="{Binding Product.Code, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      EditValueChanged="CodeTextEdit_EditValueChanged"
+                                                      CausesValidation="True" InvalidValueBehavior="AllowLeaveEditor" 
+                                                      Validate="CodeTextEdit_Validate" ValidateOnTextInput="False"/>
                                     </dxlc:LayoutItem>
 
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Reference}">
@@ -64,7 +68,7 @@
 
                                 <dxlc:LayoutGroup Orientation="Vertical">
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Category}">
-                                        <dxg:LookUpEdit Name="LookupCategory" ItemsSource="{Binding Cotegories}"
+                                        <dxg:LookUpEdit Name="LookupCategory" ItemsSource="{Binding Categories}"
                                                         EditValueChanged="LookupCategory_EditValueChanged"
                                                         SelectedItem="{Binding SelectedCategory}"
                                                         DisplayMember="Name"/>
