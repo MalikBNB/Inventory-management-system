@@ -45,9 +45,19 @@ namespace Hisba.Data.Bll.Entities
             }
         }
 
-        public static async Task<ProductCategory> GetProductCategoryById(int id)
+        //public static async Task<ProductCategory> GetProductCategoryById(int id)
+        //{
+        //    return await Db.ProductCategories.FindAsync(id);
+        //}
+
+        public static async Task<CategoryInfo> GetProductCategoryById(int id)
         {
-            return await Db.ProductCategories.FindAsync(id);
+            return await Db.ProductCategories.Select(item => new CategoryInfo
+            {
+                Id = item.Id,
+                Code = item.Code,
+                Name = item.Name
+            }).FirstOrDefaultAsync(pc => pc.Id == id);
         }
 
         public static async Task<ProductCategory> GetProductCategoryByName(string Name)

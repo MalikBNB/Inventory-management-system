@@ -57,20 +57,21 @@
                                         <dxe:TextEdit Name="CodeTextEdit" 
                                                       Text="{Binding Product.Code, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       EditValueChanged="CodeTextEdit_EditValueChanged"
-                                                      CausesValidation="True" InvalidValueBehavior="AllowLeaveEditor" 
-                                                      Validate="CodeTextEdit_Validate" ValidateOnTextInput="False"/>
+                                                      Validate="CodeTextEdit_Validate" ValidateOnTextInput="True"/>
                                     </dxlc:LayoutItem>
 
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Reference}">
-                                        <dxe:TextEdit Name="ReferenceTextEdit" Text="{Binding Product.Reference, Mode=OneWay}"/>
+                                        <dxe:TextEdit Name="ReferenceTextEdit" 
+                                                      Text="{Binding Product.Reference, Mode=OneWay}"
+                                                      Validate="ReferenceTextEdit_Validate" ValidateOnTextInput="True"/>
                                     </dxlc:LayoutItem>
                                 </dxlc:LayoutGroup>
 
                                 <dxlc:LayoutGroup Orientation="Vertical">
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Category}">
-                                        <dxg:LookUpEdit Name="LookupCategory" ItemsSource="{Binding Categories}"
+                                        <dxg:LookUpEdit Name="LookupCategory" 
+                                                        ItemsSource="{Binding Categories}"
                                                         EditValueChanged="LookupCategory_EditValueChanged"
-                                                        SelectedItem="{Binding SelectedCategory}"
                                                         DisplayMember="Name"/>
                                     </dxlc:LayoutItem>
 
@@ -91,9 +92,9 @@
                                     <!--PurchasePriceHT-->
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_PurchasePriceHT}" HorizontalAlignment="Left">
                                         <dxe:SpinEdit Name="PurchasePriceHTSpinEdit" Width="120"  
-                                                      Text="{Binding Product.PurchasePrice, Mode=OneWay}" 
-                                                      EditValueChanged="PurchasePriceHTSpinEdit_EditValueChanged"
-                                                      MaskType="Numeric" Mask="d"/>
+                                                      Text="{Binding Product.PurchasePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      EditValueChanged="PurchasePriceHTSpinEdit_EditValueChanged" 
+                                                      MaskCulture="ar-DZ" Mask="c2" />
                                     </dxlc:LayoutItem>
 
                                     <!--SalepriceHT-->
@@ -102,7 +103,7 @@
                                             <dxe:SpinEdit Name="SalePriceHTSpinEdit" Width="120" 
                                                           Text="{Binding Product.SalePrice, Mode=OneWay}" 
                                                           EditValueChanged="SalePriceHTSpinEdit_EditValueChanged"
-                                                          MaskType="Numeric" Mask="d"/>
+                                                          MaskCulture="ar-DZ" Mask="c2"/>
                                         </dxlc:LayoutItem>
                                         <dx:SimpleButton Name="SalepriceHTSmplButton" Height="25" Width="20" Margin="0 0 50 0" Click="SalepriceHTSmplButton_Click" Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
                                     </dxlc:LayoutGroup>
@@ -110,10 +111,11 @@
                                     <!--TVA-->
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_TVA}" HorizontalAlignment="Left">
                                         <dxe:ComboBoxEdit Name="TVAcbxEdit" 
+                                                          Text="{Binding Product.TVAPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemsSource="{Binding TVAs}"
                                                           SelectedItem="{Binding SelectedTVA}"
                                                           Width="120" EditValueChanged="TVAcbxEdit_EditValueChanged" 
-                                                          Mask="P" MaskType="Numeric"/>
+                                                          MaskType="Numeric" Mask="P0"/>
                                     </dxlc:LayoutItem>
                                 </dxlc:LayoutGroup>
 
@@ -122,8 +124,8 @@
                                         <!--MarginPercentage-->
                                         <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_MarginPercentage}" HorizontalAlignment="Left">
                                             <dxe:SpinEdit Name="MarginSpinEdit" Width="120" 
-                                                          Text="{Binding Product.MarginPercentage, Mode=OneWay}" 
-                                                          Mask="P" EditValueChanged="MarginSpinEdit_EditValueChanged"/>
+                                                          Text="{Binding Product.MarginPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                          EditValueChanged="MarginSpinEdit_EditValueChanged" Mask="P"/>
                                         </dxlc:LayoutItem>
                                         <dx:SimpleButton Name="MarginSmplButton" Height="25" Width="20" Click="MarginSmplButton_Click" Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
                                     </dxlc:LayoutGroup>
@@ -134,7 +136,7 @@
                                             <dxe:SpinEdit Name="SalePriceTTCSpinEdit" 
                                                           Text="{Binding Product.SalePriceTTC, Mode=OneWay}" 
                                                           Width="120" EditValueChanged="SalePriceTTCSpinEdit_EditValueChanged"
-                                                          MaskType="Numeric" Mask="d"/>
+                                                          MaskCulture="ar-DZ" Mask="c2"/>
                                         </dxlc:LayoutItem>
                                         <dx:SimpleButton Name="SalepriceTTCSmplButton" Height="25" Width="20" Click="SalepriceTTCSmplButton_Click" Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
                                     </dxlc:LayoutGroup>
@@ -142,8 +144,8 @@
                                     <!--QtyInStock-->
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_QuantityInStock}" HorizontalAlignment="Left">
                                         <dxe:SpinEdit Name="QtyInStockSpinEdit" 
-                                                      Text="{Binding Product.QuantityInStock, Mode=OneWay}" 
-                                                      Width="120" EditValueChanged="QtyInStockSpinEdit_EditValueChanged"/>
+                                                      Text="{Binding Product.QuantityInStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      Width="120" EditValueChanged="QtyInStockSpinEdit_EditValueChanged" Mask="d"/>
                                     </dxlc:LayoutItem>
 
                                 </dxlc:LayoutGroup>
@@ -162,7 +164,7 @@
                                                       KeyGesture="Ctrl+B"
                                                       ItemClick="bBold_ItemClick"
                                                       Description="Makes selected text and numbers bold. If the selection is already bold, clicking button removes bold formating." />
-                                    
+
                                     <dxb:BarCheckItem Name="bItalic"
                                                       CategoryName="Format"
                                                       Content="Italic"
@@ -170,7 +172,7 @@
                                                       KeyGesture="Ctrl+I"
                                                       ItemClick="bItalic_ItemClick"
                                                       Description="Makes selected text and numbers italic. Is the selection is already italic, clicking button removes italic formating." />
-                                    
+
                                     <dxb:BarCheckItem Name="bUnderline"
                                                       CategoryName="Format"
                                                       Content="Underline"
@@ -178,9 +180,9 @@
                                                       KeyGesture="Ctrl+U"
                                                       ItemClick="bUnderline_ItemClick"
                                                       Description="Underlines selected text and numbers. If the selection is already underlined, clicking button removes underlining." />
-                                    
+
                                     <dxb:BarItemSeparator />
-                                    
+
                                     <dxb:BarCheckItem Name="bLeft"
                                                       CategoryName="Format"
                                                       Content="Left"
@@ -189,7 +191,7 @@
                                                       IsChecked="True"
                                                       CheckedChanged="bLeft_CheckedChanged"
                                                       Description="Aligns the selected text to the left." />
-                                   
+
                                     <dxb:BarCheckItem Name="bCenter"
                                                       CategoryName="Format"
                                                       Content="Center"
@@ -197,7 +199,7 @@
                                                       Glyph="{Binding Source={x:Static icons:Icons.AlignJustify16Px}}"
                                                       CheckedChanged="bCenter_CheckedChanged"
                                                       Description="Centers the selected text." />
-                                   
+
                                     <dxb:BarCheckItem Name="bRight"
                                                       CategoryName="Format"
                                                       Content="Right"
@@ -205,13 +207,14 @@
                                                       Glyph="{Binding Source={x:Static icons:Icons.AlignRight16Px}}"
                                                       CheckedChanged="bRight_CheckedChanged"
                                                       Description="Aligns the selected text to the right." />
-                                   
+
                                     <dxb:BarItemSeparator />
-                                    
+
                                 </dxb:ToolBarControl>
-                                    <dxe:TextEdit Name="DescriptionTextEdit" 
-                                                  Text="{Binding Product.Description, Mode=OneWay}" 
-                                                  TextWrapping="Wrap" VerticalContentAlignment="Top"/>
+
+                                <dxe:TextEdit Name="DescriptionTextEdit" 
+                                              Text="{Binding Product.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              TextWrapping="Wrap" VerticalContentAlignment="Top"/>
                             </DockPanel>
                         </dxlc:LayoutGroup>
 

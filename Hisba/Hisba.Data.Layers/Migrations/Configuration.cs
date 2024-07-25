@@ -12,7 +12,7 @@ namespace Hisba.Data.Layers.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationDataLossAllowed = true;
             ContextKey = "InventoryMS.Data.Layer.AppDbContext";
             CommandTimeout = 0;
         }

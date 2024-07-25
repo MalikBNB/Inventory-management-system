@@ -51,12 +51,12 @@ namespace Hisba.Data.Bll.Entities
 
         public static async Task<User> GetUserById(int id)
         {
-            return await Db.Users.FindAsync(id);
+            return await Db.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public static async Task<User> GetUserByUsername(string Username)
         {
-            return await Db.Users.FindAsync(Username);
+            return await Db.Users.FirstOrDefaultAsync(u => u.Username == Username);
         }
 
         public static async Task<List<User>> GetAllUsers()

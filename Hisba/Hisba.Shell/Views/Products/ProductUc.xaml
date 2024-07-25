@@ -54,7 +54,8 @@
                                              Style="{StaticResource GlobalView.GridControl}"
                                              ItemsSource="{Binding Path=ProductInfos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedItems="{Binding Path=SelectedProducts, UpdateSourceTrigger=PropertyChanged}"
-                                             ItemsSourceChanged="ManageGridControl_ItemsSourceChanged">
+                                             ItemsSourceChanged="ManageGridControl_ItemsSourceChanged"
+                                             SelectedItemChanged="ManageGridControl_SelectedItemChanged">
 
                                 <dxg:GridControl.View>
                                     <dxg:TableView x:Name="TableView" Style="{StaticResource GlobalView.TableView}"
@@ -78,13 +79,13 @@
                                     <dxg:GridColumn IsSmart="True" Width="100" FieldName="PurchasePrice" Header="{x:Static localization:Resources.Property_PurchasePrice}"/>
                                     <dxg:GridColumn IsSmart="True" Width="100" FieldName="MarginPercentage" Header="{x:Static localization:Resources.Property_MarginPercentage}"/>
                                     <dxg:GridColumn IsSmart="True" Width="100" FieldName="QuantityInStock" Header="{x:Static localization:Resources.Property_QuantityInStock}"/>
-                                    <dxg:GridColumn IsSmart="True" Width="80" FieldName="CreatorId" Header="{x:Static localization:Resources.Property_Creator}" />
+                                    <dxg:GridColumn IsSmart="True" Width="80" FieldName="Creator" Header="{x:Static localization:Resources.Property_Creator}" />
                                     <dxg:GridColumn IsSmart="True" Width="120" FieldName="Created" Header="{x:Static localization:Resources.Property_Created}" FilterPopupMode="DateCompact" AllowedDateTimeFilters="All" AllowSearchPanel="False">
                                         <dxg:GridColumn.EditSettings>
                                             <dxe:DateEditSettings MaskType="DateTime" MaskUseAsDisplayFormat="True" Mask="G"/>
                                         </dxg:GridColumn.EditSettings>
                                     </dxg:GridColumn>
-                                    <dxg:GridColumn IsSmart="True" Width="80" FieldName="ModifierId" Header="{x:Static localization:Resources.Property_Modifier}" AllowSearchPanel="False"/>
+                                    <dxg:GridColumn IsSmart="True" Width="80" FieldName="Modifier" Header="{x:Static localization:Resources.Property_Modifier}" AllowSearchPanel="False"/>
                                     <dxg:GridColumn IsSmart="True" Width="120" FieldName="Modified" Header="{x:Static localization:Resources.Property_Modified}" FilterPopupMode="DateCompact" AllowedDateTimeFilters="All" AllowSearchPanel="False">
                                         <dxg:GridColumn.EditSettings>
                                             <dxe:DateEditSettings MaskType="DateTime" MaskUseAsDisplayFormat="True" Mask="G"/>

@@ -180,6 +180,9 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Exception</value>
+  </data>
   <data name="GridControl_ItemsCount" xml:space="preserve">
     <value>Count={0}</value>
   </data>

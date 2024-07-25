@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Grid.HitTest;
 using Hisba.Data.Bll.Entities;
 using Hisba.Data.Layers.Entities;
 using Hisba.Data.Layers.EntitiesInfo;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -38,6 +40,19 @@ namespace Hisba.Shell.Views.Products
                 OnPropertyChanged();
             }
         }
+
+        private ObservableCollection<ProductInfos> _selectedProducts;
+        public ObservableCollection<ProductInfos> SelectedProducts
+        {
+            get => _selectedProducts;
+            set
+            {
+                _selectedProducts = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ProductInfos _SelectedProduct ;
 
         public ProductUc()
         {
@@ -75,7 +90,7 @@ namespace Hisba.Shell.Views.Products
         {
             try
             {
-                var AddProduct = new ProductManageWindow { Owner = Window.GetWindow(this) };
+                var AddProduct = new ProductManageWindow(null) { Owner = Window.GetWindow(this) };
                 AddProduct.ShowDialog();
 
                 _LoadProducts();
@@ -88,11 +103,47 @@ namespace Hisba.Shell.Views.Products
 
         private void EditProduct_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
+            try
+            {
+                _SelectedProduct = (ProductInfos)ManageGridControl.CurrentItem;
 
+                var EditProduct = new ProductManageWindow(_SelectedProduct) {Owner = Window.GetWindow(this) };
+                EditProduct.ShowDialog();
+
+                _LoadProducts();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
-        private void DeleteProduct_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        private async void DeleteProduct_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
+            try
+            {
+                _SelectedProduct = (ProductInfos)ManageGridControl.CurrentItem;
+
+                var answer = DXMessageBox.Show($"Are you sure you want to delete Product: \n[{_SelectedProduct.Code}] [{_SelectedProduct.ProductName}] ?",
+                                                "Confirm delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes ? true : false;
+                if (answer == true)
+                {
+                    var isDeleted = await ProductBll.Delete(_SelectedProduct.Id);
+
+                    if (isDeleted == true)
+                    {
+                        DXMessageBox.Show("Product was deleted successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                        _LoadProducts();
+                    }
+                    else
+                        DXMessageBox.Show("Product was not deleted successfully", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 
@@ -116,6 +167,9 @@ namespace Hisba.Shell.Views.Products
 
         }
 
-
+        private void ManageGridControl_SelectedItemChanged(object sender, DevExpress.Xpf.Grid.SelectedItemChangedEventArgs e)
+        {
+            
+        }
     }
 }

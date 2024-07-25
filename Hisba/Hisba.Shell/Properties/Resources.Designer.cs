@@ -250,6 +250,15 @@ namespace Hisba.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception.
+        /// </summary>
+        public static string Exception {
+            get {
+                return ResourceManager.GetString("Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Count={0}.
         /// </summary>
         public static string GridControl_ItemsCount {

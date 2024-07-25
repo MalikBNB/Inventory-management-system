@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using Hisba.Data.Bll.Entities;
 using Hisba.Data.Layers.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,20 @@ namespace Hisba.Shell.GlobalClasses
 {
     public class LogedInUserInfo
     {
-        public static User CurrentUser;
+        public static User CurrentUser = new User();
 
+        public LogedInUserInfo()
+        {
+            GetUserInfo();
+        }
+
+        public static async void GetUserInfo()
+        {
+            var user =  await UserBll.GetUserByUsername("Admin");
+
+            if (user != null)
+                CurrentUser = user;
+        }
 
         public static bool RememberUsernameAndPassword(string Username, string Password)
         {

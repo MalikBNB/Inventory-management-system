@@ -3,6 +3,7 @@ using DevExpress.Xpf.Core;
 using Hisba.Data.Bll.Entities;
 using Hisba.Data.Layers.Entities;
 using Hisba.Data.Layers.EntitiesInfo;
+using Hisba.Shell.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,16 +20,31 @@ namespace Hisba.Shell.Views.Products
     public partial class ProductManageWindow : INotifyPropertyChanged
     {
 
+        #region Variables
+
+        public enum Mode
+        {
+            AddNew = 1,
+            Update = 2
+        }
+
+        private Mode _mode;
+
         private Product _Product;
         public Product Product
         {
             get => _Product;
             set
             {
-                _Product = value;
-                OnPropertyChanged();
+                if (_Product != value)
+                {
+                    _Product = value;
+                    OnPropertyChanged("Product");
+                }              
             }
         }
+
+        private ProductInfos _oldProduct;
 
         private ObservableCollection<CategoryInfo> _Categories;
         public ObservableCollection<CategoryInfo> Categories
@@ -41,16 +57,18 @@ namespace Hisba.Shell.Views.Products
             }
         }
 
-        //private ProductCategory _Category;
-
         private CategoryInfo _SelectedCategory;
         public CategoryInfo SelectedCategory
         {
             get => _SelectedCategory;
             set
             {
-                _SelectedCategory = value;
-                OnPropertyChanged("SelectedCategory");
+                if (value != _SelectedCategory)
+                {
+                    _SelectedCategory = value;
+                    OnPropertyChanged("SelectedCategory");
+                }
+
             }
         }
 
@@ -77,21 +95,34 @@ namespace Hisba.Shell.Views.Products
             }
         }
 
+        private int _oldCode;
+        private int _newCode;
+
+        #endregion
 
 
-
-
-
-        public ProductManageWindow()
+        public ProductManageWindow(ProductInfos productInfos)
         {
             InitializeComponent();
 
             DataContext = this;
+
+            if (productInfos != null)
+            {
+                _mode = Mode.Update;
+                _oldProduct = productInfos;
+            }
+            else
+            {
+                _mode = Mode.AddNew;
+                _Product = new Product();
+            }
+
         }
 
 
 
-
+        #region My Functions
         private async void _LoadCategories()
         {
             var _Categories = await ProductCategoryBll.GetAllProductCategories();
@@ -99,65 +130,205 @@ namespace Hisba.Shell.Views.Products
             Categories = new ObservableCollection<CategoryInfo>(_Categories);
         }
 
-        private void _ResetWindow()
+        //private async void _ResetWindow()
+        //{
+        //    try
+        //    {
+        //        _LoadCategories();
+
+        //        if (_mode == Mode.AddNew)
+        //        {
+        //            CodeTextEdit.Text = string.Empty;
+        //            ReferenceTextEdit.Text = string.Empty;
+        //            LabelTextEdit.Text = string.Empty;
+        //            LabelTextEdit.Focus();
+        //            PurchasePriceHTSpinEdit.NullText = "0";
+        //            SalePriceHTSpinEdit.NullText = "0";
+
+        //            TVAcbxEdit.SelectedItem = 0.0M;
+        //            MarginSpinEdit.NullText = "0";
+        //            SalePriceTTCSpinEdit.NullText = "0";
+        //            QtyInStockSpinEdit.NullText = "0";
+
+        //            DescriptionTextEdit.Text = string.Empty;
+
+        //            return;
+        //        }
+
+        //        _Product = new Product();
+
+        //        _oldCode = _oldProduct.Code;
+
+        //        _Product.Code = _oldProduct.Code;
+        //        _Product.Reference = _oldProduct.ProductReference;
+        //        _Product.CategoryId = _oldProduct.CategoryId;
+        //        _Product.Name = _oldProduct.ProductName;
+        //        _Product.PurchasePrice = _oldProduct.PurchasePrice;
+        //        _Product.MarginPercentage = _oldProduct.MarginPercentage;
+        //        _Product.TVAPercentage = _oldProduct.TVAPercentage;
+        //        _Product.Description = _oldProduct.Description;
+        //        _Product.QuantityInStock = _oldProduct.QuantityInStock;
+        //        _Product.CreatorId = _oldProduct.CreatorId;
+        //        _Product.Created = _oldProduct.Created;
+        //        _Product.ModifierId = _oldProduct.ModifierId;
+        //        _Product.Modified = _oldProduct.Modified;
+
+        //        LookupCategory.Text = _oldProduct.Category;
+
+        //        var category = await ProductCategoryBll.GetProductCategoryById((int)_Product.CategoryId);
+        //        SelectedCategory = category;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+
+        //}
+
+
+        private async void _ResetWindow()
         {
-            _LoadCategories();
-
-            CodeTextEdit.Text = string.Empty;
-            ReferenceTextEdit.Text = string.Empty;
-            LabelTextEdit.Text = string.Empty;
-            LookupCategory.AllowDrop = true;
-            PurchasePriceHTSpinEdit.NullText = "0";
-            SalePriceHTSpinEdit.NullText = "0";
-
-            TVAcbxEdit.SelectedItem = 0.0M;
-            MarginSpinEdit.NullText = "0";
-            SalePriceTTCSpinEdit.NullText = "0";
-            QtyInStockSpinEdit.NullText = "0";
-
-            DescriptionTextEdit.Text = string.Empty;
-        }
-
-        private void _CreateProduct()
-        {
-            _Product = new Product();
-
-            _Product.Code = int.Parse(CodeTextEdit.Text);
-            _Product.Reference = ReferenceTextEdit.Text;
-            _Product.Name = LabelTextEdit.Text;
-            _Product.Description = DescriptionTextEdit.Text;
-            _Product.CategoryId = SelectedCategory.Id;
-            _Product.PurchasePrice = PurchasePriceHTSpinEdit.Value;
-            _Product.MarginPercentage = MarginSpinEdit.Value;
-            _Product.TVAPercentage = SelectedTVA;
-            _Product.QuantityInStock = QtyInStockSpinEdit.Value;
-            _Product.CreatorId = 1; // LogedInUserInfo.CurrentUser.Id;
-            _Product.Created = DateTime.Now;
-            _Product.ModifierId = 1; // LogedInUserInfo.CurrentUser.Id;
-            _Product.Modified = DateTime.Now;
-        }
-
-        private bool _SaveProduct()
-        {
-
             try
             {
-                _CreateProduct();
-                ProductBll.Add(_Product);
+                _LoadCategories();
 
-                //using (var context = new AppDbContext())
-                //{
-                //}
+                if (_mode == Mode.AddNew)
+                {
+                    LabelTextEdit.Focus();
+                    return;
+                }
 
-                return true;
+                _Product = new Product();
+
+                _oldCode = _oldProduct.Code;
+
+                _Product.Code = _oldProduct.Code;
+                _Product.Reference = _oldProduct.ProductReference;
+                _Product.CategoryId = _oldProduct.CategoryId;
+                _Product.Name = _oldProduct.ProductName;
+                _Product.PurchasePrice = _oldProduct.PurchasePrice;
+                _Product.MarginPercentage = _oldProduct.MarginPercentage;
+                _Product.TVAPercentage = _oldProduct.TVAPercentage;
+                _Product.Description = _oldProduct.Description;
+                _Product.QuantityInStock = _oldProduct.QuantityInStock;
+                _Product.CreatorId = _oldProduct.CreatorId;
+                _Product.Created = _oldProduct.Created;
+                _Product.ModifierId = _oldProduct.ModifierId;
+                _Product.Modified = _oldProduct.Modified;
+
+                LookupCategory.Text = _oldProduct.Category;
+
+                var category = await ProductCategoryBll.GetProductCategoryById((int)_Product.CategoryId);
+                SelectedCategory = category;
             }
             catch (Exception ex)
             {
-                DXMessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private bool _AllFieldsAreValid()
+        {
+            if (string.IsNullOrEmpty(LabelTextEdit.Text))
+            {
+                DXMessageBox.Show("Label cannot be empty.", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                LabelTextEdit.Focus();
+
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(ReferenceTextEdit.Text))
+            {
+                DXMessageBox.Show("Reference cannot be empty.", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                ReferenceTextEdit.Focus();
+
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(LookupCategory.Text))
+            {
+                DXMessageBox.Show("Category cannot be empty.", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                LookupCategory.Focus();
+
+                return false;
+            }
+
+            //if (LogedInUserInfo.CurrentUser == null)
+            //{
+            //    DXMessageBox.Show("Cannot find user.", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+
+            //    return false;
+            //}
+
+            return true;
+        }
+
+        private async Task<bool> _CreateProduct()
+        {
+            try
+            {
+                if (_AllFieldsAreValid())
+                {
+
+                    //_Product.Reference = ReferenceTextEdit.Text;
+                    //_Product.Name = LabelTextEdit.Text;
+                    //_Product.Description = DescriptionTextEdit.Text;
+                    //_Product.CategoryId = SelectedCategory.Id;
+                    //_Product.PurchasePrice = PurchasePriceHTSpinEdit.Value;
+                    //_Product.MarginPercentage = MarginSpinEdit.Value;
+                    //_Product.TVAPercentage = SelectedTVA;
+                    //_Product.QuantityInStock = QtyInStockSpinEdit.Value;
+                    _Product.ModifierId = 1; //LogedInUserInfo.CurrentUser.Id;
+                    _Product.Modified = DateTime.Now;
+
+                    if (_mode == Mode.AddNew)
+                    {
+                        //_Product.Code = string.IsNullOrEmpty(CodeTextEdit.Text) || string.IsNullOrWhiteSpace(CodeTextEdit.Text) ? 
+                        //                await ProductBll.GenerateNewCode(SelectedCategory) : int.Parse(SelectedCategory.Code.ToString() + CodeTextEdit.Text);
+                        _Product.CreatorId = 1; // LogedInUserInfo.CurrentUser.Id;
+                        _Product.Created = DateTime.Now;
+
+                        ProductBll.Add(_Product);
+                    }
+                    else
+                    {
+                        //if (_newCode == _oldCode)
+                        //    _Product.Code = _oldCode;
+                        //else
+                        //    _Product.Code = string.IsNullOrEmpty(CodeTextEdit.Text) || string.IsNullOrWhiteSpace(CodeTextEdit.Text) ?
+                        //        await ProductBll.GenerateNewCode(SelectedCategory) : int.Parse(SelectedCategory.Code.ToString() + _newCode.ToString());
+
+                        ProductBll.Update(_Product);
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+        }
+
+        private async Task<bool> _SaveProduct()
+        {
+            try
+            {                            
+                return  await _CreateProduct();
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
 
+        #endregion
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -168,39 +339,40 @@ namespace Hisba.Shell.Views.Products
         }
 
 
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _ResetWindow();
         }
 
-        private void SaveBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        private async void SaveBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if (_SaveProduct() == true)
-                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (await _SaveProduct() == true)
+                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             else
-                DXMessageBox.Show("Product saved successfully", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                DXMessageBox.Show("Product was not saved", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void SaveAndCloseBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        private async void SaveAndCloseBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if (_SaveProduct() == true)
+            if (await _SaveProduct() == true)
             {
-                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }
             else
-                DXMessageBox.Show("Product saved successfully", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                DXMessageBox.Show("Product was not saved", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void SaveAndNewBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
+        private async void SaveAndNewBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if (_SaveProduct() == true)
+            if (await _SaveProduct() == true)
             {
-                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Error);
+                DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _ResetWindow();
             }
             else
-                DXMessageBox.Show("Product saved successfully", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                DXMessageBox.Show("Product was not saved", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void EmptyFieldsBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
@@ -209,15 +381,24 @@ namespace Hisba.Shell.Views.Products
 
             if (Answer == true)
                 _ResetWindow();
-
         }
 
 
 
+        private void CodeTextEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            if (_mode == Mode.Update)
+                _newCode = int.Parse(CodeTextEdit.Text);
+        }
+
         private void LookupCategory_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            //_Category = new ProductCategory();
-            //_Category = await ProductCategoryBll.GetProductCategoryByName(SelectedCategory.Name);
+            CodeTextEdit.Clear();
+
+            if (LookupCategory != null)
+            {
+                SelectedCategory = (CategoryInfo)LookupCategory.SelectedItem;
+            }
         }
 
         private void PurchasePriceHTSpinEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
@@ -237,10 +418,10 @@ namespace Hisba.Shell.Views.Products
 
         }
 
-
         private void MarginSpinEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            SalePriceHTSpinEdit.Value = PurchasePriceHTSpinEdit.Value * (1 + (MarginSpinEdit.Value / 100));
+            if(MarginSpinEdit.IsFocused)
+                SalePriceHTSpinEdit.Value = PurchasePriceHTSpinEdit.Value * (1 + (MarginSpinEdit.Value / 100));
 
         }
 
@@ -304,48 +485,64 @@ namespace Hisba.Shell.Views.Products
 
         }
 
-        private void CodeTextEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        #region Validation
+        private void CodeTextEdit_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
         {
-            //if (LookupCategory.EditValue == null)
-            //{
-            //    DXMessageBox.Show("You have to choose category first", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    CodeTextEdit.Clear();
-            //    LookupCategory.AllowDrop = true;
-            //}
+            if (!string.IsNullOrEmpty((string)e.Value) && SelectedCategory != null)
+            {
+                try
+                {
+                    if (e.Value == null) return;
 
-            //if (CodeTextEdit != null)
-            //    CodeTextEdit.DoValidate();
+                    if (int.TryParse(SelectedCategory.Code + (string)e.Value, out int value))
+                    {
+                        //Task<bool> task = Task.Run(() => ProductBll.IsCodeExist(value));
+                        //if (task.Result == true) return;
 
+                        var task = ProductBll.IsCodeExist(value);
+                        if (task == true) return;
+
+
+                        e.IsValid = false;
+                        e.ErrorContent = "Code already exist. Enter another one.";
+                        CodeTextEdit.Focus();
+
+                        return;
+                    }
+
+                    e.IsValid = false;
+                    e.ErrorContent = "Code only accept numbers.";
+                }
+                catch (Exception ex)
+                {
+                    DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
-        static bool Check(int value)
-        {
-            return ProductBll.IsCodeExist(value);
-        }
-        private async void CodeTextEdit_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
+
+        private void ReferenceTextEdit_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
         {
             if (!string.IsNullOrEmpty((string)e.Value))
             {
-                if (e.Value == null) return;
-
-                List<int> values = new List<int>();
-                values.Add(Convert.ToInt32(e.Value));
-                //Task<bool> response = Task.Run(() => ProductBll.IsCodeExist(Convert.ToInt32(e.Value)));
-                //var b = await response;
-                //if (b == true) return;
-
-                bool r = true;
-                Parallel.ForEach(values, value =>
+                try
                 {
-                    r = Check(value);
-                });
+                    if (e.Value == null) return;
 
-                if (r == true) return;
+                    Task<bool> task = Task.Run(() => ProductBll.IsReferenceExist((string) e.Value));
+                    if (task.Result == true) return;
 
-                e.ErrorType = DevExpress.XtraEditors.DXErrorProvider.ErrorType.Warning;
-                e.IsValid = false;
-                e.ErrorContent = "Code already exist. Enter another one.";
+
+                    e.IsValid = false;
+                    e.ErrorContent = "Reference already exist. Enter another one.";
+                }
+                catch (Exception ex)
+                {
+                    DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
             }
         }
+
+        #endregion
     }
 }
