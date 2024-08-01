@@ -1,6 +1,9 @@
 ﻿using DevExpress.Office.Utils;
 using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Core.Native;
+using Hisba.Data.Bll;
 using Hisba.Data.Bll.Entities;
+using Hisba.Data.Layers;
 using Hisba.Data.Layers.Entities;
 using Hisba.Data.Layers.EntitiesInfo;
 using Hisba.Shell.GlobalClasses;
@@ -9,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -30,21 +34,11 @@ namespace Hisba.Shell.Views.Products
 
         private Mode _mode;
 
-        private Product _Product;
-        public Product Product
-        {
-            get => _Product;
-            set
-            {
-                if (_Product != value)
-                {
-                    _Product = value;
-                    OnPropertyChanged("Product");
-                }              
-            }
-        }
+        private Product _Product = new Product();
 
-        private ProductInfos _oldProduct;
+        private Product _oldProduct;
+
+        private string _reference;
 
         private ObservableCollection<CategoryInfo> _Categories;
         public ObservableCollection<CategoryInfo> Categories
@@ -101,21 +95,20 @@ namespace Hisba.Shell.Views.Products
         #endregion
 
 
-        public ProductManageWindow(ProductInfos productInfos)
+        public ProductManageWindow(string Reference = "")
         {
             InitializeComponent();
 
             DataContext = this;
 
-            if (productInfos != null)
+            if (!string.IsNullOrEmpty(Reference))
             {
                 _mode = Mode.Update;
-                _oldProduct = productInfos;
+                _reference = Reference;
             }
             else
             {
                 _mode = Mode.AddNew;
-                _Product = new Product();
             }
 
         }
@@ -130,63 +123,7 @@ namespace Hisba.Shell.Views.Products
             Categories = new ObservableCollection<CategoryInfo>(_Categories);
         }
 
-        //private async void _ResetWindow()
-        //{
-        //    try
-        //    {
-        //        _LoadCategories();
-
-        //        if (_mode == Mode.AddNew)
-        //        {
-        //            CodeTextEdit.Text = string.Empty;
-        //            ReferenceTextEdit.Text = string.Empty;
-        //            LabelTextEdit.Text = string.Empty;
-        //            LabelTextEdit.Focus();
-        //            PurchasePriceHTSpinEdit.NullText = "0";
-        //            SalePriceHTSpinEdit.NullText = "0";
-
-        //            TVAcbxEdit.SelectedItem = 0.0M;
-        //            MarginSpinEdit.NullText = "0";
-        //            SalePriceTTCSpinEdit.NullText = "0";
-        //            QtyInStockSpinEdit.NullText = "0";
-
-        //            DescriptionTextEdit.Text = string.Empty;
-
-        //            return;
-        //        }
-
-        //        _Product = new Product();
-
-        //        _oldCode = _oldProduct.Code;
-
-        //        _Product.Code = _oldProduct.Code;
-        //        _Product.Reference = _oldProduct.ProductReference;
-        //        _Product.CategoryId = _oldProduct.CategoryId;
-        //        _Product.Name = _oldProduct.ProductName;
-        //        _Product.PurchasePrice = _oldProduct.PurchasePrice;
-        //        _Product.MarginPercentage = _oldProduct.MarginPercentage;
-        //        _Product.TVAPercentage = _oldProduct.TVAPercentage;
-        //        _Product.Description = _oldProduct.Description;
-        //        _Product.QuantityInStock = _oldProduct.QuantityInStock;
-        //        _Product.CreatorId = _oldProduct.CreatorId;
-        //        _Product.Created = _oldProduct.Created;
-        //        _Product.ModifierId = _oldProduct.ModifierId;
-        //        _Product.Modified = _oldProduct.Modified;
-
-        //        LookupCategory.Text = _oldProduct.Category;
-
-        //        var category = await ProductCategoryBll.GetProductCategoryById((int)_Product.CategoryId);
-        //        SelectedCategory = category;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-
-        //}
-
-
-        private async void _ResetWindow()
+        private void _ResetWindow()
         {
             try
             {
@@ -194,32 +131,84 @@ namespace Hisba.Shell.Views.Products
 
                 if (_mode == Mode.AddNew)
                 {
+                    this.Title = Properties.Resources.Title_AddProduct;
+
+                    CodeTextEdit.Text = string.Empty;
+                    ReferenceTextEdit.Text = string.Empty;
+                    LabelTextEdit.Text = string.Empty;
                     LabelTextEdit.Focus();
+                    PurchasePriceHTSpinEdit.NullText = "0";
+                    SalePriceHTSpinEdit.NullText = "0";
+
+                    TVAcbxEdit.SelectedItem = 0.0M;
+                    MarginSpinEdit.NullText = "0";
+                    SalePriceTTCSpinEdit.NullText = "0";
+                    QtyInStockSpinEdit.NullText = "0";
+
+                    DescriptionTextEdit.Text = string.Empty;
+
                     return;
                 }
 
-                _Product = new Product();
+                this.Title = Properties.Resources.Title_EditProduct;
+                
 
-                _oldCode = _oldProduct.Code;
+                //_Product = new Product();
+                //_Product.Code = _oldProduct.Code;
+                //_Product.Reference = _oldProduct.ProductReference;
+                //_Product.CategoryId = _oldProduct.CategoryId;
+                //_Product.Name = _oldProduct.ProductName;
+                //_Product.PurchasePrice = _oldProduct.PurchasePrice;
+                //_Product.MarginPercentage = _oldProduct.MarginPercentage;
+                //_Product.TVAPercentage = _oldProduct.TVAPercentage;
+                //_Product.Description = _oldProduct.Description;
+                //_Product.QuantityInStock = _oldProduct.QuantityInStock;
+                //_Product.CreatorId = _oldProduct.CreatorId;
+                //_Product.Created = _oldProduct.Created;
+                //_Product.ModifierId = _oldProduct.ModifierId;
+                //_Product.Modified = _oldProduct.Modified;
+                //LookupCategory.Text = _oldProduct.Category;
 
-                _Product.Code = _oldProduct.Code;
-                _Product.Reference = _oldProduct.ProductReference;
-                _Product.CategoryId = _oldProduct.CategoryId;
-                _Product.Name = _oldProduct.ProductName;
-                _Product.PurchasePrice = _oldProduct.PurchasePrice;
-                _Product.MarginPercentage = _oldProduct.MarginPercentage;
-                _Product.TVAPercentage = _oldProduct.TVAPercentage;
-                _Product.Description = _oldProduct.Description;
-                _Product.QuantityInStock = _oldProduct.QuantityInStock;
-                _Product.CreatorId = _oldProduct.CreatorId;
-                _Product.Created = _oldProduct.Created;
-                _Product.ModifierId = _oldProduct.ModifierId;
-                _Product.Modified = _oldProduct.Modified;
 
-                LookupCategory.Text = _oldProduct.Category;
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, Properties.Resources.Exception, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-                var category = await ProductCategoryBll.GetProductCategoryById((int)_Product.CategoryId);
-                SelectedCategory = category;
+        }
+
+        private async void _LoadProductInfo()
+        {
+            try
+            {
+                _oldProduct = await ProductBll.GetProductByReference(_reference);
+
+                if (_oldProduct != null)
+                {
+                    CodeTextEdit.Text = _oldProduct.Code.ToString();
+                    ReferenceTextEdit.Text = _oldProduct.Reference;
+                    LabelTextEdit.Text = _oldProduct.Name;
+                    PurchasePriceHTSpinEdit.Text = _oldProduct.PurchasePrice.ToString();
+                    SalePriceHTSpinEdit.Text = _oldProduct.SalePrice.ToString();
+                    LookupCategory.Text = _oldProduct.Category.Name;
+                    SelectedTVA = _oldProduct.TVAPercentage;
+                    MarginSpinEdit.Text = _oldProduct.MarginPercentage.ToString();
+                    SalePriceTTCSpinEdit.Text = _oldProduct.SalePriceTTC.ToString();
+                    QtyInStockSpinEdit.Text = _oldProduct.QuantityInStock.ToString();
+                    DescriptionTextEdit.Text = _oldProduct.Description;
+
+                    LabelTextEdit.Focus();
+
+                    _oldCode = _oldProduct.Code;
+                    var category = await ProductCategoryBll.GetProductCategoryById(_oldProduct.Category.Id);
+                    SelectedCategory = category;
+                }
+                else
+                {
+                    DXMessageBox.Show($"Cannot find product with reference {_reference}. Try again", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -271,21 +260,21 @@ namespace Hisba.Shell.Views.Products
                 if (_AllFieldsAreValid())
                 {
 
-                    //_Product.Reference = ReferenceTextEdit.Text;
-                    //_Product.Name = LabelTextEdit.Text;
-                    //_Product.Description = DescriptionTextEdit.Text;
-                    //_Product.CategoryId = SelectedCategory.Id;
-                    //_Product.PurchasePrice = PurchasePriceHTSpinEdit.Value;
-                    //_Product.MarginPercentage = MarginSpinEdit.Value;
-                    //_Product.TVAPercentage = SelectedTVA;
-                    //_Product.QuantityInStock = QtyInStockSpinEdit.Value;
+                    _Product.Reference = ReferenceTextEdit.Text.Trim();
+                    _Product.Name = LabelTextEdit.Text.Trim();
+                    _Product.Description = DescriptionTextEdit.Text.Trim();
+                    _Product.CategoryId = SelectedCategory.Id;
+                    _Product.PurchasePrice = PurchasePriceHTSpinEdit.Value;
+                    _Product.MarginPercentage = MarginSpinEdit.Value;
+                    _Product.TVAPercentage = SelectedTVA;
+                    _Product.QuantityInStock = QtyInStockSpinEdit.Value;
                     _Product.ModifierId = 1; //LogedInUserInfo.CurrentUser.Id;
                     _Product.Modified = DateTime.Now;
 
                     if (_mode == Mode.AddNew)
                     {
-                        //_Product.Code = string.IsNullOrEmpty(CodeTextEdit.Text) || string.IsNullOrWhiteSpace(CodeTextEdit.Text) ? 
-                        //                await ProductBll.GenerateNewCode(SelectedCategory) : int.Parse(SelectedCategory.Code.ToString() + CodeTextEdit.Text);
+                        _Product.Code = string.IsNullOrEmpty(CodeTextEdit.Text.Trim()) ?
+                                        await ProductBll.GenerateNewCode(SelectedCategory) : int.Parse(SelectedCategory.Code.ToString() + CodeTextEdit.Text.Trim());
                         _Product.CreatorId = 1; // LogedInUserInfo.CurrentUser.Id;
                         _Product.Created = DateTime.Now;
 
@@ -293,11 +282,14 @@ namespace Hisba.Shell.Views.Products
                     }
                     else
                     {
-                        //if (_newCode == _oldCode)
-                        //    _Product.Code = _oldCode;
-                        //else
-                        //    _Product.Code = string.IsNullOrEmpty(CodeTextEdit.Text) || string.IsNullOrWhiteSpace(CodeTextEdit.Text) ?
-                        //        await ProductBll.GenerateNewCode(SelectedCategory) : int.Parse(SelectedCategory.Code.ToString() + _newCode.ToString());
+                        if (_newCode == _oldCode)
+                            _Product.Code = _oldCode;
+                        else
+                            _Product.Code = string.IsNullOrEmpty(CodeTextEdit.Text.Trim()) ?
+                                            await ProductBll.GenerateNewCode(SelectedCategory) : int.Parse(SelectedCategory.Code.ToString() + _newCode.ToString());
+
+                        _Product.CreatorId = _oldProduct.CreatorId;
+                        _Product.Created = _oldProduct.Created;
 
                         ProductBll.Update(_Product);
                     }
@@ -318,8 +310,9 @@ namespace Hisba.Shell.Views.Products
         private async Task<bool> _SaveProduct()
         {
             try
-            {                            
-                return  await _CreateProduct();
+            {
+                var isCreated = await _CreateProduct();
+                return isCreated;
             }
             catch (Exception ex)
             {
@@ -331,11 +324,13 @@ namespace Hisba.Shell.Views.Products
         #endregion
 
 
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+              PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
 
@@ -343,11 +338,16 @@ namespace Hisba.Shell.Views.Products
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _ResetWindow();
+
+            if(_mode == Mode.Update)
+                _LoadProductInfo();
         }
 
         private async void SaveBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if (await _SaveProduct() == true)
+            var isSaved = await _SaveProduct();
+
+            if (isSaved == true)
                 DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 DXMessageBox.Show("Product was not saved", Properties.Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -355,7 +355,9 @@ namespace Hisba.Shell.Views.Products
 
         private async void SaveAndCloseBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if (await _SaveProduct() == true)
+            var isSaved = await _SaveProduct();
+
+            if (isSaved == true)
             {
                 DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
@@ -366,7 +368,9 @@ namespace Hisba.Shell.Views.Products
 
         private async void SaveAndNewBarButtonItem_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
         {
-            if (await _SaveProduct() == true)
+            var isSaved = await _SaveProduct();
+
+            if (isSaved == true)
             {
                 DXMessageBox.Show("Product saved successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 _ResetWindow();
@@ -393,7 +397,7 @@ namespace Hisba.Shell.Views.Products
 
         private void LookupCategory_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            CodeTextEdit.Clear();
+            //CodeTextEdit.Clear();
 
             if (LookupCategory != null)
             {
@@ -404,25 +408,21 @@ namespace Hisba.Shell.Views.Products
         private void PurchasePriceHTSpinEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
             if (PurchasePriceHTSpinEdit.Value != 0)
-                MarginSpinEdit.Text = (((SalePriceHTSpinEdit.Value / PurchasePriceHTSpinEdit.Value) - 1) * 100).ToString();
+                MarginSpinEdit.Value = ((SalePriceHTSpinEdit.Value / PurchasePriceHTSpinEdit.Value) - 1) * 100;
         }
 
         private void SalePriceHTSpinEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
             if (PurchasePriceHTSpinEdit.Value != 0)
-            {
-                MarginSpinEdit.Text = (((SalePriceHTSpinEdit.Value / PurchasePriceHTSpinEdit.Value) - 1) * 100).ToString();
-            }
+                MarginSpinEdit.Value = ((SalePriceHTSpinEdit.Value / PurchasePriceHTSpinEdit.Value) - 1) * 100;
 
-            SalePriceTTCSpinEdit.Value = SalePriceHTSpinEdit.Value * (1 + (SelectedTVA / 100));
-
+            SalePriceTTCSpinEdit.Value = SalePriceHTSpinEdit.Value * (1 + SelectedTVA / 100);
         }
 
         private void MarginSpinEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            if(MarginSpinEdit.IsFocused)
+            if (MarginSpinEdit.IsFocused)
                 SalePriceHTSpinEdit.Value = PurchasePriceHTSpinEdit.Value * (1 + (MarginSpinEdit.Value / 100));
-
         }
 
         private void TVAcbxEdit_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)

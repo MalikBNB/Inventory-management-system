@@ -55,14 +55,14 @@
                                 <dxlc:LayoutGroup Orientation="Horizontal">
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Code}">
                                         <dxe:TextEdit Name="CodeTextEdit" 
-                                                      Text="{Binding Product.Code, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      Text="{Binding _Product.Code, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       EditValueChanged="CodeTextEdit_EditValueChanged"
                                                       Validate="CodeTextEdit_Validate" ValidateOnTextInput="True"/>
                                     </dxlc:LayoutItem>
 
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Reference}">
                                         <dxe:TextEdit Name="ReferenceTextEdit" 
-                                                      Text="{Binding Product.Reference, Mode=OneWay}"
+                                                      Text="{Binding _Product.Reference, Mode=OneWay}"
                                                       Validate="ReferenceTextEdit_Validate" ValidateOnTextInput="True"/>
                                     </dxlc:LayoutItem>
                                 </dxlc:LayoutGroup>
@@ -77,7 +77,7 @@
 
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_Label}">
                                         <dxe:TextEdit Name="LabelTextEdit" Height="80" 
-                                                      Text="{Binding Product.Name, Mode=OneWay}" 
+                                                      Text="{Binding _Product.Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" 
                                                       VerticalContentAlignment="Top"/>
                                     </dxlc:LayoutItem>
@@ -92,30 +92,32 @@
                                     <!--PurchasePriceHT-->
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_PurchasePriceHT}" HorizontalAlignment="Left">
                                         <dxe:SpinEdit Name="PurchasePriceHTSpinEdit" Width="120"  
-                                                      Text="{Binding Product.PurchasePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      Text="{Binding _Product.PurchasePrice, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       EditValueChanged="PurchasePriceHTSpinEdit_EditValueChanged" 
-                                                      MaskCulture="ar-DZ" Mask="c2" />
+                                                      MaskType="Numeric" Mask="d" MaskCulture="en" MaskUseAsDisplayFormat="True"/>
                                     </dxlc:LayoutItem>
 
                                     <!--SalepriceHT-->
                                     <dxlc:LayoutGroup Orientation="Horizontal">
                                         <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_SalePriceHT}" HorizontalAlignment="Left">
                                             <dxe:SpinEdit Name="SalePriceHTSpinEdit" Width="120" 
-                                                          Text="{Binding Product.SalePrice, Mode=OneWay}" 
+                                                          Text="{Binding _Product.SalePrice, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                           EditValueChanged="SalePriceHTSpinEdit_EditValueChanged"
-                                                          MaskCulture="ar-DZ" Mask="c2"/>
+                                                          MaskType="Numeric" Mask="d" MaskUseAsDisplayFormat="True"/>
                                         </dxlc:LayoutItem>
-                                        <dx:SimpleButton Name="SalepriceHTSmplButton" Height="25" Width="20" Margin="0 0 50 0" Click="SalepriceHTSmplButton_Click" Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
+                                        <dx:SimpleButton Name="SalepriceHTSmplButton" Height="25" 
+                                                         Width="20" Margin="0 0 50 0" Click="SalepriceHTSmplButton_Click" 
+                                                         Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
                                     </dxlc:LayoutGroup>
 
                                     <!--TVA-->
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_TVA}" HorizontalAlignment="Left">
-                                        <dxe:ComboBoxEdit Name="TVAcbxEdit" 
-                                                          Text="{Binding Product.TVAPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <dxe:ComboBoxEdit Name="TVAcbxEdit" Width="120" 
+                                                          EditValue="{Binding _Product.TVAPercentage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemsSource="{Binding TVAs}"
                                                           SelectedItem="{Binding SelectedTVA}"
-                                                          Width="120" EditValueChanged="TVAcbxEdit_EditValueChanged" 
-                                                          MaskType="Numeric" Mask="P0"/>
+                                                          EditValueChanged="TVAcbxEdit_EditValueChanged" 
+                                                          MaskType="Numeric"/>
                                     </dxlc:LayoutItem>
                                 </dxlc:LayoutGroup>
 
@@ -124,28 +126,34 @@
                                         <!--MarginPercentage-->
                                         <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_MarginPercentage}" HorizontalAlignment="Left">
                                             <dxe:SpinEdit Name="MarginSpinEdit" Width="120" 
-                                                          Text="{Binding Product.MarginPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                          EditValueChanged="MarginSpinEdit_EditValueChanged" Mask="P"/>
+                                                          Text="{Binding _Product.MarginPercentage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                          EditValueChanged="MarginSpinEdit_EditValueChanged" 
+                                                          Mask="P" MaskUseAsDisplayFormat="True"/>
                                         </dxlc:LayoutItem>
-                                        <dx:SimpleButton Name="MarginSmplButton" Height="25" Width="20" Click="MarginSmplButton_Click" Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
+                                        <dx:SimpleButton Name="MarginSmplButton" Height="25" Width="20" 
+                                                         Click="MarginSmplButton_Click" 
+                                                         Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
                                     </dxlc:LayoutGroup>
 
                                     <dxlc:LayoutGroup Orientation="Horizontal">
                                         <!--SalepriceTTC-->
                                         <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_SalePriceTTC}" HorizontalAlignment="Left">
                                             <dxe:SpinEdit Name="SalePriceTTCSpinEdit" 
-                                                          Text="{Binding Product.SalePriceTTC, Mode=OneWay}" 
+                                                          Text="{Binding _Product.SalePriceTTC, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                           Width="120" EditValueChanged="SalePriceTTCSpinEdit_EditValueChanged"
-                                                          MaskCulture="ar-DZ" Mask="c2"/>
+                                                          MaskType="Numeric" Mask="c2"/>
                                         </dxlc:LayoutItem>
-                                        <dx:SimpleButton Name="SalepriceTTCSmplButton" Height="25" Width="20" Click="SalepriceTTCSmplButton_Click" Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
+                                        <dx:SimpleButton Name="SalepriceTTCSmplButton" Height="25" Width="20" 
+                                                         Click="SalepriceTTCSmplButton_Click" 
+                                                         Glyph="{Binding Source={x:Static icons:Icons.Calculator16Px}}"/>
                                     </dxlc:LayoutGroup>
 
                                     <!--QtyInStock-->
                                     <dxlc:LayoutItem Label="{x:Static localization:Resources.Property_QuantityInStock}" HorizontalAlignment="Left">
-                                        <dxe:SpinEdit Name="QtyInStockSpinEdit" 
-                                                      Text="{Binding Product.QuantityInStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      Width="120" EditValueChanged="QtyInStockSpinEdit_EditValueChanged" Mask="d"/>
+                                        <dxe:SpinEdit Name="QtyInStockSpinEdit" Width="120" 
+                                                      Text="{Binding _Product.QuantityInStock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      EditValueChanged="QtyInStockSpinEdit_EditValueChanged" 
+                                                      MaskType="Numeric" Mask="d"/>
                                     </dxlc:LayoutItem>
 
                                 </dxlc:LayoutGroup>
@@ -213,7 +221,7 @@
                                 </dxb:ToolBarControl>
 
                                 <dxe:TextEdit Name="DescriptionTextEdit" 
-                                              Text="{Binding Product.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              Text="{Binding _Product.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                               TextWrapping="Wrap" VerticalContentAlignment="Top"/>
                             </DockPanel>
                         </dxlc:LayoutGroup>

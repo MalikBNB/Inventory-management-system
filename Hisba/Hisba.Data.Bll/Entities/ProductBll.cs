@@ -13,32 +13,31 @@ using System.Windows.Automation;
 
 namespace Hisba.Data.Bll.Entities
 {
-    public class ProductBll : SharedBll
+    public class ProductBll
     {
         public async static void Add(Product Product)
         {
-            using (var context = new AppDbContext())
-            {               
-                try
+            try
+            {
+                using(var context = new AppDbContext())
                 {
                     context.Products.Add(Product);
                     await context.SaveChangesAsync();
                 }
-                catch (Exception ex)
-                {
-                    DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
             }
-            
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public async static void Update(Product Product)
         {
-            using (var context = new AppDbContext())
+            try
             {
-                try
+                using (var context = new AppDbContext())
                 {
-                    var oldProduct = await context.Products.FirstOrDefaultAsync(p => p.Reference == Product.Reference);
+                    var oldProduct = await context.Products.FirstOrDefaultAsync(p => p.Id == Product.Id);
 
                     if (oldProduct == null) return;
 
@@ -49,6 +48,7 @@ namespace Hisba.Data.Bll.Entities
                     oldProduct.CategoryId = Product.CategoryId;
                     oldProduct.PurchasePrice = Product.PurchasePrice;
                     oldProduct.MarginPercentage = Product.MarginPercentage;
+                    oldProduct.TVAPercentage = Product.TVAPercentage;
                     oldProduct.QuantityInStock = Product.QuantityInStock;
                     oldProduct.CreatorId = Product.CreatorId;
                     oldProduct.Created = Product.Created;
@@ -57,21 +57,21 @@ namespace Hisba.Data.Bll.Entities
 
                     await context.SaveChangesAsync();
                 }
-                catch(Exception ex)
-                {
-                    DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                    
             }
-                
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        public async static Task<bool> Delete(int Id)
+        public async static Task<bool> Delete(string reference)
         {
             using (var context = new AppDbContext())
             {
                 try
                 {
-                    var ProductToDelete = await context.Products.FindAsync(Id);
+                    var ProductToDelete = await context.Products.FindAsync(reference);
 
                     if (ProductToDelete != null)
                     {
@@ -93,86 +93,159 @@ namespace Hisba.Data.Bll.Entities
 
         public static async Task<Product> GetProductById(int id)
         {
-            return await Db.Products.FindAsync(id);
+            try
+            {
+                using(var context = new AppDbContext())
+                {
+                    var product = await context.Products.FindAsync(id);
+                    return product;
+                }
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
 
         public static async Task<Product> GetProductByReference(string Reference)
         {
-            return await Db.Products.FindAsync(Reference);
+            try
+            {
+                using (var context = new AppDbContext())
+                {
+                    var product = await context.Products.FirstOrDefaultAsync(p => p.Reference == Reference);
+                    return product;
+                }                    
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
 
         public static async Task<int> GenerateNewCode(CategoryInfo Category)
         {
-            int NewCode, IncreaseCode;
-            var LastCode = await Db.Products.Where(p => p.CategoryId == Category.Id)
-                                           .OrderByDescending(pc => pc.Code).Select(pc => pc.Code).FirstOrDefaultAsync(); 
-            
-            if(LastCode.ToString().Length == 1)
-                IncreaseCode = LastCode + 1;
-            else
-                IncreaseCode = int.Parse(LastCode.ToString().Substring(1)) + 1;
+            try
+            {
+                using (var context = new AppDbContext())
+                {
+                    int NewCode, IncreaseCode;
+                    var LastCode = await context.Products.Where(p => p.CategoryId == Category.Id)
+                                                   .OrderByDescending(pc => pc.Code).Select(pc => pc.Code).FirstOrDefaultAsync();
 
-            NewCode = int.Parse(Category.Code.ToString() + IncreaseCode.ToString());
+                    if (LastCode.ToString().Length == 1)
+                        IncreaseCode = LastCode + 1;
+                    else
+                        IncreaseCode = int.Parse(LastCode.ToString().Substring(1)) + 1;
 
-            return NewCode;
+                    NewCode = int.Parse(Category.Code.ToString() + IncreaseCode.ToString());
+
+                    return NewCode;
+                }
+     
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
         }
-
-        //public static async Task<bool> IsCodeExist(int Code)
-        //{
-        //    return await Db.Products.FirstOrDefaultAsync(p => p.Code == Code) == null;
-        //}
 
         public static bool IsCodeExist(int Code)
         {
-            var result = Task.Run(() => Db.Products.FirstOrDefaultAsync(p => p.Code == Code));
-
-            return result.Result  == null;
+            try
+            {
+                using (var context = new AppDbContext())
+                {
+                    var result = Task.Run(() => context.Products.FirstOrDefaultAsync(p => p.Code == Code));
+                    return result.Result == null;
+                }  
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
         }
 
         public static async Task<bool> IsReferenceExist(string Reference)
         {
-            return await Db.Products.FirstOrDefaultAsync(p => p.Reference == Reference) == null;
+            try
+            {
+                using (var context = new AppDbContext())
+                {
+                    var isExist = await context.Products.FirstOrDefaultAsync(p => p.Reference == Reference) == null;
+                    return isExist;
+                }
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
         }
 
         public static async Task<List<ProductInfos>> GetAllProducts()
         {
-            return await Db.Products.Select(item => new ProductInfos
+            using (var context = new AppDbContext())
             {
-                Id = item.Id,
+                var products = await context.Products.Select(item => new ProductInfos
+                {
 
-                Code = item.Code,
+                    Code = item.Code,
 
-                ProductReference = item.Reference,
+                    ProductReference = item.Reference,
 
-                ProductName = item.Name,
+                    ProductName = item.Name,
 
-                Description = item.Description,
+                    Description = item.Description,
 
-                CategoryId = (int)item.CategoryId,
+                    CategoryId = (int)item.CategoryId,
 
-                Category = item.Category.Name,
+                    Category = item.Category.Name,
 
-                PurchasePrice = item.PurchasePrice,
-                
-                MarginPercentage = item.MarginPercentage,
+                    PurchasePrice = item.PurchasePrice,
 
-                TVAPercentage = item.TVAPercentage,
+                    MarginPercentage = item.MarginPercentage,
 
-                QuantityInStock = item.QuantityInStock,
+                    TVAPercentage = item.TVAPercentage,
 
-                Creator = item.Creator.Username,
+                    QuantityInStock = item.QuantityInStock,
 
-                CreatorId = item.Creator.Id,
+                    Creator = item.Creator.Username,
 
-                Created = item.Created,
+                    CreatorId = item.Creator.Id,
 
-                Modifier = item.Modifier.Username,
+                    Created = item.Created,
 
-                ModifierId = item.Modifier.Id,
+                    Modifier = item.Modifier.Username,
 
-                Modified = item.Modified,
+                    ModifierId = item.Modifier.Id,
 
-            }).ToListAsync();
+                    Modified = item.Modified,
+
+                }).ToListAsync();
+                return products;
+            } 
+        }
+
+        public static async Task<List<Product>> GetProductsList()
+        {
+            try
+            {
+                using (var context = new AppDbContext())
+                {
+                    var products = await context.Products.ToListAsync();
+                    return products;
+                }
+            }
+            catch (Exception ex)
+            {
+                DXMessageBox.Show(ex.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
     }
 }

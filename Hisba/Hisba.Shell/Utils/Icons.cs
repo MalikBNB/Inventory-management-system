@@ -33,6 +33,14 @@ namespace Hisba.Shell.Utils
         public const string AlignRight16Px = "pack://application:,,,/Hisba.Shell;component/Icons/AlignRight16Px.png";
         public const string AlignJustify16Px = "pack://application:,,,/Hisba.Shell;component/Icons/AlignJustify16Px.png";
 
+        public const string Add16Px = "pack://application:,,,/Hisba.Shell;component/Icons/Add16Px.png";
+        public const string Add32Px = "pack://application:,,,/Hisba.Shell;component/Icons/Add32Px.png";
+
+        public const string Validate16Px = "pack://application:,,,/Hisba.Shell;component/Icons/Validate16Px.png";
+        public const string Validate32Px = "pack://application:,,,/Hisba.Shell;component/Icons/Validate32Px.png";
+
+
+
 
 
 

@@ -90,7 +90,7 @@ namespace Hisba.Shell.Views.Products
         {
             try
             {
-                var AddProduct = new ProductManageWindow(null) { Owner = Window.GetWindow(this) };
+                var AddProduct = new ProductManageWindow() { Owner = Window.GetWindow(this) };
                 AddProduct.ShowDialog();
 
                 _LoadProducts();
@@ -107,7 +107,7 @@ namespace Hisba.Shell.Views.Products
             {
                 _SelectedProduct = (ProductInfos)ManageGridControl.CurrentItem;
 
-                var EditProduct = new ProductManageWindow(_SelectedProduct) {Owner = Window.GetWindow(this) };
+                var EditProduct = new ProductManageWindow(_SelectedProduct.ProductReference) {Owner = Window.GetWindow(this) };
                 EditProduct.ShowDialog();
 
                 _LoadProducts();
@@ -128,7 +128,7 @@ namespace Hisba.Shell.Views.Products
                                                 "Confirm delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes ? true : false;
                 if (answer == true)
                 {
-                    var isDeleted = await ProductBll.Delete(_SelectedProduct.Id);
+                    var isDeleted = await ProductBll.Delete(_SelectedProduct.ProductReference);
 
                     if (isDeleted == true)
                     {

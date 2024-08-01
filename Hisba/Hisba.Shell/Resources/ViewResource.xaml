@@ -248,6 +248,20 @@
         <Setter Property="ArrowPadding" Value="0 0 6 0"/>
     </Style>
 
+    <Style x:Key="GlobalView.Command.Add" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Add}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Add16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Add32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Cancel" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Cancel}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Cancel16Px}}"/>
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Cancel32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
     <Style x:Key="GlobalView.Command.New" TargetType="dxb:BarButtonItem">
         <Setter Property="Content" Value="{x:Static localization:Resources.Command_New}"/>
         <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.New16Px}}"/>
@@ -266,6 +280,13 @@
         <Setter Property="Content" Value="{x:Static localization:Resources.Command_Delete}"/>
         <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.DeleteBin16Px}}" />
         <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.DeleteBin32Px}}"/>
+        <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
+    </Style>
+
+    <Style x:Key="GlobalView.Command.Validate" TargetType="dxb:BarButtonItem">
+        <Setter Property="Content" Value="{x:Static localization:Resources.Command_Validate}"/>
+        <Setter Property="Glyph" Value="{Binding Source={x:Static icons:Icons.Validate16Px}}" />
+        <Setter Property="MediumGlyph" Value="{Binding Source={x:Static icons:Icons.Validate32Px}}"/>
         <Setter Property="BarItemDisplayMode" Value="ContentAndGlyph"/>
     </Style>
 

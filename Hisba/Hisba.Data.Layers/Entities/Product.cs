@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Hisba.Data.Layers.Entities
 {
-    public class Product
+    public class Product //: INotifyPropertyChanged
     {
+
+        #region Public Properties
         [Key]
         public int Id { get; set; }
 
@@ -23,17 +26,17 @@ namespace Hisba.Data.Layers.Entities
 
         public decimal PurchasePrice { get; set; }
 
-        public decimal MarginPercentage { get; set; }
-
         public decimal TVAPercentage { get; set; }
 
-        public double TVA { get => (double)(TVAPercentage / 100); }
+        public double TVA => (double)(TVAPercentage / 100);
+
+        public decimal MarginPercentage { get; set; }
 
         public double Margin { get => (double)(MarginPercentage / 100); }
+        
+        public decimal SalePrice => PurchasePrice * (decimal)(1 + Margin);
 
-        public decimal SalePrice { get { return PurchasePrice * (decimal)(1 + Margin); } }
-
-        public decimal SalePriceTTC { get => SalePrice * (decimal)(1 + TVA); }
+        public decimal SalePriceTTC => SalePrice * (decimal)(1 + TVA);
 
         public decimal QuantityInStock { get; set; }
 
@@ -51,5 +54,6 @@ namespace Hisba.Data.Layers.Entities
 
         public ICollection<OrderItem> Items { get; set; }
 
+        #endregion
     }
 }

@@ -95,6 +95,15 @@
     </ApplicationDefinition>
     <Compile Include="GlobalClasses\LogedInUserInfo.cs" />
     <Compile Include="Utils\Icons.cs" />
+    <Compile Include="Views\DeliveryNote\DeliveryNoteManageWindow.xaml.cs">
+      <DependentUpon>DeliveryNoteManageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeliveryNote\DeliveryNoteUc.xaml.cs">
+      <DependentUpon>DeliveryNoteUc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GoodsReceipt\GoodsReceiptManageWindow.xaml.cs">
+      <DependentUpon>GoodsReceiptManageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GoodsReceipt\GoodsReceiptUc.xaml.cs">
       <DependentUpon>GoodsReceiptUc.xaml</DependentUpon>
     </Compile>
@@ -117,6 +126,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\ViewResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeliveryNote\DeliveryNoteManageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeliveryNote\DeliveryNoteUc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GoodsReceipt\GoodsReceiptManageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,6 +298,19 @@
     <Resource Include="Icons\Bold16Px.png" />
     <Resource Include="Icons\Italic16Px.png" />
     <Resource Include="Icons\Underline16Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Add16Px.png" />
+    <Resource Include="Icons\Cancel16Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Add32Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Validate32Px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Validate16Px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

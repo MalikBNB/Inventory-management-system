@@ -12,15 +12,17 @@ namespace Hisba.Data.Layers.EntitiesInfo
     {
         public int Id { get; set; }
 
+        public int Code { get; set; }   
+
         public decimal Quantity { get; set; }
 
-        public double TVA { get => (double)(TVAPercentage / 100); }
-
-        public decimal TVAPercentage { get; set; }
+        public decimal DiscountPercentage { get; set; }
 
         public double Discount { get => (double)(DiscountPercentage / 100); }
 
-        public decimal DiscountPercentage { get; set; }
+        public double TVA { get => (double)(TVAPercentage / 100); }
+
+        public decimal TVAPercentage {  get; set; }
 
         public decimal Price => PurchasePrice;
 
@@ -30,7 +32,7 @@ namespace Hisba.Data.Layers.EntitiesInfo
 
         public decimal AmountHT => PriceHT * Quantity;
 
-        public decimal PriceTTC { get { return PriceHT * (decimal)(1 + TVA); } }
+        public decimal PriceTTC => PriceHT * (decimal)(1 + TVA);
 
         public decimal NetPriceHT => PriceHT * (decimal)(1 - Discount);
 
@@ -72,9 +74,16 @@ namespace Hisba.Data.Layers.EntitiesInfo
 
         public string Tier { get; set; }
 
-        public int OrderTypeId { get; set; }
+        public string TierName { get; set; }
 
         public string OrderType { get; set; }
+
+        public bool OrderTypeIsIn { get; set; }
+
+        public short OrderTypeSign { get; set; }
+
+        public int OrderTypeCode { get; set; }
+
 
         public DateTime Date { get; set; }
 
@@ -90,7 +99,7 @@ namespace Hisba.Data.Layers.EntitiesInfo
 
         public int ProductId { get; set; }
 
-        public int Code { get; set; }
+        public int ProductCode { get; set; }
 
         public string ProductReference { get; set; }
 
@@ -104,14 +113,22 @@ namespace Hisba.Data.Layers.EntitiesInfo
 
         public decimal PurchasePrice { get; set; }
 
-        public decimal SalePrice { get => PurchasePrice * (decimal)(1 + (MarginPercentage/100)); }
+        public decimal SalePrice { get => PurchasePrice * (decimal)(1 + Margin); }
+
+        public decimal SalePriceTTC { get => SalePrice * (decimal)(1 + productTVA); }
 
         public decimal MarginPercentage { get; set; }
+
+        public double Margin { get => (double)(MarginPercentage / 100); }
+
+        public decimal ProductTVA { get; set; }
+
+        public double productTVA { get => (double)(ProductTVA / 100); }
 
         public decimal QuantityInStock { get; set; }
 
         //--------------------------------
 
-        
+
     }
 }

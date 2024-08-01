@@ -63,9 +63,14 @@
                                                    Loaded="TableView_Loaded">
                                         <dxg:TableView.RowCellMenuCustomizations>
                                             <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.New}" ItemClick="AddProduct_ItemClick"/>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Edit}" IsEnabled="{DXBinding @e(ManageGridControl).SelecedItems.Count \=\= 1}" ItemClick="EditProduct_ItemClick"/>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Delete}" ItemClick="DeleteProduct_ItemClick"/>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.GridCommand.Refresh}" ItemClick="RefreshProduct_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Edit}" 
+                                                               IsEnabled="{DXBinding @e(ManageGridControl).SelecedItems.Count \=\= 1}" 
+                                                               ItemClick="EditProduct_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Delete}" 
+                                                               IsEnabled="{DXBinding @e(ManageGridControl).SelecedItems.Count \=\= 1}"
+                                                               ItemClick="DeleteProduct_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.GridCommand.Refresh}" 
+                                                               ItemClick="RefreshProduct_ItemClick"/>
                                         </dxg:TableView.RowCellMenuCustomizations>
                                     </dxg:TableView>
                                 </dxg:GridControl.View>
@@ -77,7 +82,10 @@
                                     <dxg:GridColumn IsSmart="True" Width="250" FieldName="Description" Header="{x:Static localization:Resources.Property_Description}"/>
                                     <dxg:GridColumn IsSmart="True" Width="150" FieldName="Category" Header="{x:Static localization:Resources.Property_Category}"/>
                                     <dxg:GridColumn IsSmart="True" Width="100" FieldName="PurchasePrice" Header="{x:Static localization:Resources.Property_PurchasePrice}"/>
+                                    <dxg:GridColumn IsSmart="True" Width="100" FieldName="SalePrice" Header="{x:Static localization:Resources.Property_SalePriceHT}"/>
                                     <dxg:GridColumn IsSmart="True" Width="100" FieldName="MarginPercentage" Header="{x:Static localization:Resources.Property_MarginPercentage}"/>
+                                    <dxg:GridColumn IsSmart="True" Width="100" FieldName="TVAPercentage" Header="{x:Static localization:Resources.Property_TVAPercentage}"/>
+                                    <dxg:GridColumn IsSmart="True" Width="100" FieldName="SalePriceTTC" Header="{x:Static localization:Resources.Property_SalePriceTTC}"/>
                                     <dxg:GridColumn IsSmart="True" Width="100" FieldName="QuantityInStock" Header="{x:Static localization:Resources.Property_QuantityInStock}"/>
                                     <dxg:GridColumn IsSmart="True" Width="80" FieldName="Creator" Header="{x:Static localization:Resources.Property_Creator}" />
                                     <dxg:GridColumn IsSmart="True" Width="120" FieldName="Created" Header="{x:Static localization:Resources.Property_Created}" FilterPopupMode="DateCompact" AllowedDateTimeFilters="All" AllowSearchPanel="False">

@@ -1,0 +1,150 @@
+﻿<dx:ThemedWindow xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"  xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"   xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                  x:Class="Hisba.Shell.Views.GoodsReceipt.GoodsReceiptManageWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:local="clr-namespace:Hisba.Shell.Views.GoodsReceipt"
+                  xmlns:localization="clr-namespace:Hisba.Shell.Properties" 
+                  xmlns:icons="clr-namespace:Hisba.Shell.Utils;assembly=Hisba.Shell"
+                  xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+                  xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                  mc:Ignorable="d" Height="450" Width="600"
+                  Title="{x:Static localization:Resources.Property_AddGoodsReceipt}" 
+                  ResizeMode="NoResize" Icon="{Binding Source={x:Static icons:Icons.logo32Px}}"
+                  WindowStartupLocation="CenterOwner" Style="{StaticResource DxWindowStyle}" Loaded="ThemedWindow_Loaded">
+    
+    
+    <Grid>
+        <Grid Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--ToolBar-->
+            <dxb:BarContainerControl ContainerType="Top">
+                
+                <dxb:ToolBarControl Style="{StaticResource GlobalView.ToolBarControl}">
+                    <dxb:BarButtonItem x:Name="AddBarButtonItem" Tag="Add"
+                           Style="{StaticResource GlobalView.Command.Add}"
+                           KeyGesture="Ctrl+S" ItemClick="AddBarButtonItem_ItemClick"/>
+
+                    <dxb:BarButtonItem x:Name="CancelBarButtonItem" Tag="Cancel"
+                           Style="{StaticResource GlobalView.Command.Cancel}"
+                           KeyGesture="Ctrl+E" ItemClick="CancelBarButtonItem_ItemClick"/>
+
+                </dxb:ToolBarControl>
+            </dxb:BarContainerControl>
+
+            <dx:LoadingDecorator Name="LoadingDecorator" OwnerLock="Full" Grid.Row="1">
+                <dxlc:LayoutControl  dxe:ValidationService.IsValidationContainer="True" dxe:ValidationService.AllowAccessibilityAlerts="True">
+
+                    <dxlc:LayoutGroup Orientation="Vertical" >
+                        <dxlc:LayoutGroup Orientation="Horizontal">
+                            <dxlc:LayoutItem Label="Product">
+                                <dxg:LookUpEdit Name="ProductLookUpEdit"
+                                                ItemsSource="{Binding ProductsList}"
+                                                SelectedItem="{Binding SelectedProduct}"
+                                                EditValueChanged="ProductLookUpEdit_EditValueChanged"
+                                                DisplayMember="Reference"/>
+                            </dxlc:LayoutItem>
+                            
+                            <dx:SimpleButton Name="NewProductButton" Height="25" Width="30" 
+                                             Click="NewProductButton_Click" 
+                                             Glyph="{Binding Source={x:Static icons:Icons.Forward10Px}}">
+                                
+                                <dxb:PopupMenu Name="NewProductPopupMenu">
+                                    <dxb:PopupMenu.Items>
+                                        <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.New}" 
+                                                           ItemClick="AddProduct_ItemClick"/>
+                                        <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Edit}" 
+                                                           IsEnabled="{DXBinding @e(ProductLookUpEdit).SelecedItems.Count \=\= 1}" 
+                                                           ItemClick="EditProduct_ItemClick"/>
+                                        <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Delete}"
+                                                           IsEnabled="{DXBinding @e(ProductLookUpEdit).SelecedItems.Count \=\= 1}"
+                                                           ItemClick="DeleteProduct_ItemClick"/>
+                                    </dxb:PopupMenu.Items>
+                                </dxb:PopupMenu>
+                            </dx:SimpleButton>
+                        </dxlc:LayoutGroup>
+
+                        <dxlc:LayoutItem Label="Label">
+                            <dxe:TextEdit Name="LabelTextEdit" Height="50" 
+                                          VerticalContentAlignment="Top"
+                                          VerticalScrollBarVisibility="Visible"/>
+                        </dxlc:LayoutItem>
+                        
+                        <dxlc:LayoutItem Label="Description">
+                            <dxe:TextEdit Name="DescriptionTextEdit" Height="100" IsReadOnly="True"
+                                          VerticalContentAlignment="Top"
+                                          VerticalScrollBarVisibility="Visible"/>
+                        </dxlc:LayoutItem>
+
+                        <Separator Height="20"/>
+
+                        <dxlc:LayoutGroup Orientation="Horizontal">
+
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutItem Label="U purchase price HT">
+                                    <dxe:SpinEdit Name="UPurchasePriceHTSpinEdit"                                                
+                                                  EditValueChanged="UPurchasePriceHTSpinEdit_EditValueChanged"
+                                                  Mask="###,###,###.##" MaskUseAsDisplayFormat="True" MaskType="Numeric"/>
+                                </dxlc:LayoutItem>
+
+                                <dxlc:LayoutItem Label="U purchase price TTC">
+                                    <dxe:SpinEdit Name="UPurchasePriceTTCSpinEdit"
+                                                  EditValueChanged="UPurchasepriceTTCSpinEdit_EditValueChanged"
+                                                  Mask="###,###,###.##" MaskUseAsDisplayFormat="True" MaskType="Numeric"/>
+                                </dxlc:LayoutItem>
+
+                                <dxlc:LayoutItem Label="TVA">
+                                    <dxe:ComboBoxEdit Name="TVACbx"
+                                                      EditValueChanged="TVACbx_EditValueChanged"
+                                                      ItemsSource="{Binding TVAs}"
+                                                      SelectedItem="{Binding SelectedTVA}"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="30" HorizontalAlignment="Right" Width="150">
+
+                                <dxlc:LayoutItem Label="Qty" Width="150">
+                                    <dxe:SpinEdit Name="QtySpinEdit"
+                                                  EditValueChanged="QtySpinEdit_EditValueChanged"/>
+                                </dxlc:LayoutItem>
+
+                                <dxlc:LayoutItem Label="Discount" Width="150">
+                                    <dxe:SpinEdit Name="DiscountSpinEdit"
+                                                  EditValueChanged="DiscountSpinEdit_EditValueChanged"/>
+                                </dxlc:LayoutItem>
+
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="30" HorizontalAlignment="Right" Width="150">
+
+                                <dxlc:LayoutItem Label="Qty in stock" >
+                                    <dxe:SpinEdit Name="QtyInStokSpinEdit" IsReadOnly="True"
+                                                  EditValueChanged="QtyInStokSpinEdit_EditValueChanged"/>
+                                </dxlc:LayoutItem>
+
+                                <dxlc:LayoutItem Label="=" LabelHorizontalAlignment="Right">
+                                    <dxe:SpinEdit Name="AfterDiscountSpinEdit"
+                                                  EditValueChanged="AfterDiscountSpinEdit_EditValueChanged"
+                                                  Mask="###,###,###.##" MaskUseAsDisplayFormat="True" MaskType="Numeric"/>
+                                </dxlc:LayoutItem>
+
+                            </dxlc:LayoutGroup>
+
+                            
+                            
+                        </dxlc:LayoutGroup>
+
+                    </dxlc:LayoutGroup>
+
+                </dxlc:LayoutControl>
+                
+            </dx:LoadingDecorator>
+
+        </Grid>
+    </Grid>
+</dx:ThemedWindow>

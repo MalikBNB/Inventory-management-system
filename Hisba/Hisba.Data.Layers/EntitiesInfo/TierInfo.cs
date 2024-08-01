@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Hisba.Data.Layers.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Hisba.Data.Layers.Entities
+namespace Hisba.Data.Layers.EntitiesInfo
 {
-    public class Tier
+    public class TierInfo
     {
-        [Key]
         public int Id { get; set; }
 
         public int Code { get; set; }
@@ -21,7 +23,7 @@ namespace Hisba.Data.Layers.Entities
 
         public string FullName { get { return FirstName + " " + LastName; } }
 
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -37,20 +39,15 @@ namespace Hisba.Data.Layers.Entities
 
         public int? CreatorId { get; set; }
 
-        public virtual User Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime Created { get; set; }
 
         public int? ModifierId { get; set; }
 
-        public virtual User Modifier { get; set; }
+        public string Modifier { get; set; }
 
         public DateTime Modified { get; set; }
-
-
-        public ICollection<Order> Orders { get; set; }
-
-        public ICollection<Transaction> Transactions { get; set; }
 
     }
 

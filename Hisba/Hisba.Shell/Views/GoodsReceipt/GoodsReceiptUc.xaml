@@ -1,4 +1,4 @@
-﻿<UserControl xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"    
+﻿<UserControl xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"  xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"    
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"  
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"  
              xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"  
@@ -18,11 +18,12 @@
         <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
             <!--ToolBar-->
-            <dxb:BarContainerControl Grid.Row="0">
+            <dxb:BarContainerControl Grid.Row="0" Orientation="Vertical">
                 <dxb:ToolBarControl Style="{StaticResource GlobalView.ToolBarControl}">
                     <dxb:BarButtonItem x:Name="AddReceipt"
                                        Style="{StaticResource GlobalView.Command.New}"
@@ -32,13 +33,20 @@
                     <dxb:BarButtonItem x:Name="EditReceipt" 
                                        Style="{StaticResource GlobalView.Command.Edit}"
                                        KeyGesture="Ctrl+E"
-                                       IsEnabled="{DXBinding @e(ManageGridControl).SelecedItems.Count \=\= 1}"
+                                       IsEnabled="{DXBinding '@e(ManageGridControl).SelectedItems.Count >= 1'}"
                                        ItemClick="EditReceipt_ItemClick"/>
 
                     <dxb:BarButtonItem x:Name="DeleteReceipt"
                                        Style="{StaticResource GlobalView.Command.Delete}"
                                        KeyGesture="Ctrl+D"
+                                       IsEnabled="{DXBinding '@e(ManageGridControl).SelectedItems.Count >= 1'}"
                                        ItemClick="DeleteReceipt_ItemClick"/>
+
+                    <dxb:BarButtonItem x:Name="ValidateReceipt"
+                                       Style="{StaticResource GlobalView.Command.Validate}"
+                                       KeyGesture="Ctrl+S"
+                                       IsEnabled="{DXBinding '@e(ManageGridControl).SelectedItems.Count >= 1'}"
+                                       ItemClick="ValidateReceipt_ItemClick"/>
 
                     <dxb:BarButtonItem x:Name="RefreshReceipt"
                                        Style="{StaticResource GlobalView.GridCommand.Refresh}"
@@ -46,15 +54,31 @@
                                        ItemClick="RefreshReceipt_ItemClick"/>
                 </dxb:ToolBarControl>
             </dxb:BarContainerControl>
+            
+            <dxlc:LayoutControl Grid.Row="1">
+                <dxlc:LayoutGroup Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="Provider" HorizontalAlignment="Left">
+                        <dxg:LookUpEdit Name="ProviderLookUpEdit" Width="450" Margin="0 0 0 0"
+                                        ItemsSource="{Binding Providers}"
+                                        SelectedItem="{Binding SelectedProvider}"
+                                        EditValueChanged="ProviderLookUpEdit_EditValueChanged"
+                                        DisplayMember="Name"/>
+                    </dxlc:LayoutItem>
 
-            <dxdo:DockLayoutManager Grid.Row="1" AutoHideExpandMode="MouseDown" AllowCustomization="False">
+                    <dxlc:LayoutItem Label="Date" HorizontalAlignment="Right">
+                        <dxe:DateEdit Name="DateDateEdit" Width="200" Mask="g"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutControl>
+
+            <dxdo:DockLayoutManager Grid.Row="2" AutoHideExpandMode="MouseDown" AllowCustomization="False">
                 <dxdo:LayoutGroup>
                     <dxdo:LayoutPanel ShowCaption="False" AllowDockToCurrentItem="False" ShowBorder="False" Margin="0 0 0 -3">
                         <dx:LoadingDecorator Name="LoadingDecorator" OwnerLock="Full">
                             <dxg:GridControl x:Name="ManageGridControl"
                                              Style="{StaticResource GlobalView.GridControl}"
                                              ItemsSource="{Binding Path=OrderItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SelectedItems="{Binding Path=SelectedReceipts, UpdateSourceTrigger=PropertyChanged}"
+                                             SelectedItems="{Binding Path=SelectedOrderItem, UpdateSourceTrigger=PropertyChanged}"
                                              ItemsSourceChanged="ManageGridControl_ItemsSourceChanged">
 
                                 <dxg:GridControl.View>
@@ -62,16 +86,21 @@
                                                    RowDoubleClick="TableView_RowDoubleClick"
                                                    Loaded="TableView_Loaded">
                                         <dxg:TableView.RowCellMenuCustomizations>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.New}" ItemClick="AddReceipt_ItemClick"/>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Edit}" IsEnabled="{DXBinding @e(ManageGridControl).SelecedItems.Count \=\= 1}" ItemClick="EditReceipt_ItemClick"/>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Delete}" ItemClick="DeleteReceipt_ItemClick"/>
-                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.GridCommand.Refresh}" ItemClick="RefreshReceipt_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.New}" 
+                                                               ItemClick="AddReceipt_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Edit}" 
+                                                               IsEnabled="{DXBinding @e(ManageGridControl).SelecedItems.Count \=\= 1}" 
+                                                               ItemClick="EditReceipt_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.Command.Delete}" 
+                                                               ItemClick="DeleteReceipt_ItemClick"/>
+                                            <dxb:BarButtonItem Style="{StaticResource GlobalView.GridCommand.Refresh}" 
+                                                               ItemClick="RefreshReceipt_ItemClick"/>
                                         </dxg:TableView.RowCellMenuCustomizations>
                                     </dxg:TableView>
                                 </dxg:GridControl.View>
 
                                 <dxg:GridControl.Columns>
-                                    <dxg:GridColumn IsSmart="True" Width="50" FieldName="Code" Header="{x:Static localization:Resources.Property_Code}"/>
+                                    <dxg:GridColumn IsSmart="True" Width="50" FieldName="ProductCode" Header="{x:Static localization:Resources.Property_Code}"/>
                                     <dxg:GridColumn IsSmart="True" Width="50" FieldName="ProductReference" Header="{x:Static localization:Resources.Property_Reference}"/>
                                     <dxg:GridColumn IsSmart="True" Width="200" FieldName="ProductName" Header="{x:Static localization:Resources.Property_Label}"/>
                                     <dxg:GridColumn IsSmart="True" Width="50" FieldName="Quantity" Header="{x:Static localization:Resources.Property_Quantity}"/>

@@ -61,6 +61,24 @@ namespace Hisba.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Command_Add {
+            get {
+                return ResourceManager.GetString("Command_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Command_Cancel {
+            get {
+                return ResourceManager.GetString("Command_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Command_Copy {
@@ -241,6 +259,15 @@ namespace Hisba.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Validate.
+        /// </summary>
+        public static string Command_Validate {
+            get {
+                return ResourceManager.GetString("Command_Validate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -273,6 +300,15 @@ namespace Hisba.Shell.Properties {
         public static string GridControl_SelectedItemsCount {
             get {
                 return ResourceManager.GetString("GridControl_SelectedItemsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Property_AddGoodsReceipt {
+            get {
+                return ResourceManager.GetString("Property_AddGoodsReceipt", resourceCulture);
             }
         }
         
@@ -691,11 +727,38 @@ namespace Hisba.Shell.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Title_Add {
+            get {
+                return ResourceManager.GetString("Title_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Product.
         /// </summary>
         public static string Title_AddProduct {
             get {
                 return ResourceManager.GetString("Title_AddProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Title_Edit {
+            get {
+                return ResourceManager.GetString("Title_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Product.
+        /// </summary>
+        public static string Title_EditProduct {
+            get {
+                return ResourceManager.GetString("Title_EditProduct", resourceCulture);
             }
         }
     }

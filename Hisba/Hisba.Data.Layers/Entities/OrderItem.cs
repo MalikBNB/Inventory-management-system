@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace Hisba.Data.Layers.Entities
 {
@@ -8,6 +9,8 @@ namespace Hisba.Data.Layers.Entities
     {
         [Key]
         public int Id { get; set; }
+
+        public int Code { get; set; }   
 
         public int? OrderId { get; set; }
 
@@ -29,11 +32,15 @@ namespace Hisba.Data.Layers.Entities
 
         public decimal PriceHT => Product.SalePrice;
 
-        public decimal PriceTTC { get { return PriceHT * (decimal)(1 + TVA); } }
+        public decimal PriceTTC => PriceHT * (decimal)(1 + TVA);
 
         public decimal NetPriceHT => PriceHT * (decimal)(1 - Discount);
 
+        public decimal NetAmountHT => NetPriceHT * Quantity;
+
         public decimal NetPriceTTC => PriceTTC * (decimal)(1 - Discount);
+
+        public decimal NetAmountTTC => NetPriceTTC * Quantity;
 
         public decimal MarginPercentageHT => (decimal)(MarginHT * 100);
 
